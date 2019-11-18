@@ -11,7 +11,7 @@ import androidx.appcompat.widget.SearchView
 import kotlinx.android.synthetic.main.activity_itunes.*
 
 
-class ITunesActivity : AppCompatActivity() {
+class ITunesActivity : AppCompatActivity(), ISearchCriteriaDialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,9 +33,15 @@ class ITunesActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when (item.itemId) {
-            R.id.actionSearchFilter -> true
+            R.id.actionSearchCriteria -> showSearchCriteriaDialog()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+
+    override fun onSearchCriteriaSelected(searchCriteria: SearchCriteria) {
+
+        Toast.makeText(this@ITunesActivity, searchCriteria.value, Toast.LENGTH_SHORT).show()
     }
 
 
@@ -59,5 +65,14 @@ class ITunesActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun showSearchCriteriaDialog(): Boolean {
+
+        SearchCriteriaDialog
+                .getInstance(supportFragmentManager)
+                .show(supportFragmentManager, SearchCriteriaDialog.getTag())
+
+        return true
     }
 }
