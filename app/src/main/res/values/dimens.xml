@@ -1,0 +1,4 @@
+<resources>
+    <!-- app -->
+    <dimen name="edgeMargin">16dp</dimen>
+</resources>

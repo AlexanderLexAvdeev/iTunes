@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.regula.itunes.avdeevav.ITunesActivity">
+
+    <item
+        android:id="@+id/actionSearchFilter"
+        android:title="@string/menuActionSearchFilter" />
+
+    <item
+        android:id="@+id/actionStorage"
+        android:title="@string/menuActionStorage" />
+
+</menu>

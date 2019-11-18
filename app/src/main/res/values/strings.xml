@@ -1,0 +1,7 @@
+<resources>
+    <!-- app -->
+    <string name="appName">iTunes</string>
+    <!-- iTunes activity -->
+    <string name="menuActionSearchFilter">Search filter</string>
+    <string name="menuActionStorage">Storage</string>
+</resources>
