@@ -1,13 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.regula.itunes.avdeevav.ITunesActivity">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.regula.itunes.avdeevav.ITunesActivity">
 
     <item
-        android:id="@+id/actionSearchFilter"
-        android:title="@string/menuActionSearchFilter" />
+            android:id="@+id/actionSearch"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/menuActionSearchInITunes"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:showAsAction="always|collapseActionView"/>
 
     <item
-        android:id="@+id/actionStorage"
-        android:title="@string/menuActionStorage" />
+            android:id="@+id/actionSearchFilter"
+            android:title="@string/menuActionSearchFilter"/>
+
+    <item
+            android:id="@+id/actionStorage"
+            android:title="@string/menuActionStorage"/>
 
 </menu>
