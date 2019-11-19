@@ -28,6 +28,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     private lateinit var searchItem: MenuItem
     private lateinit var searchView: SearchView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -68,7 +69,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when (item.itemId) {
-            R.id.actionSearchCriteria -> showSearchCriteriaDialog()
+            R.id.actionSearchCriteria -> showSearchOptionsDialog()
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -80,6 +81,35 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         searchInITunes()
     }
 
+
+    private fun initSwipeToRefresh() {
+
+        swipeToRefresh.setOnRefreshListener {
+            searchInITunes()
+        }
+    }
+
+    private fun initITunesItemList() {
+
+        //iTunesItemListAdapter = ITunesItemListAdapter()
+
+        iTunesItemList.layoutManager = LinearLayoutManager(this@SearchInITunesActivity, RecyclerView.VERTICAL, false)
+        iTunesItemList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    outRect.top = resources.getDimensionPixelSize(R.dimen.iTunesItemListOffsetVertical)
+                } else {
+                    parent.adapter?.let { adapter ->
+                        if (parent.getChildAdapterPosition(view) == adapter.itemCount - 1) {
+                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.iTunesItemListOffsetVertical)
+                        }
+                    }
+                }
+            }
+        })
+        iTunesItemList.setHasFixedSize(true)
+        //iTunesItemList.adapter = iTunesItemListAdapter
+    }
 
     private fun initSearchView(menu: Menu) {
 
@@ -120,35 +150,6 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         })
     }
 
-    private fun initSwipeToRefresh() {
-
-        swipeToRefresh.setOnRefreshListener {
-            searchInITunes()
-        }
-    }
-
-    private fun initITunesItemList() {
-
-        //iTunesItemListAdapter = ITunesItemListAdapter()
-
-        iTunesItemList.layoutManager = LinearLayoutManager(this@SearchInITunesActivity, RecyclerView.VERTICAL, false)
-        iTunesItemList.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                if (parent.getChildAdapterPosition(view) == 0) {
-                    outRect.top = resources.getDimensionPixelSize(R.dimen.iTunesItemListOffsetVertical)
-                } else {
-                    parent.adapter?.let { adapter ->
-                        if (parent.getChildAdapterPosition(view) == adapter.itemCount - 1) {
-                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.iTunesItemListOffsetVertical)
-                        }
-                    }
-                }
-            }
-        })
-        iTunesItemList.setHasFixedSize(true)
-        //iTunesItemList.adapter = iTunesItemListAdapter
-    }
-
     private fun executeLastSearchRequest() {
 
         initSearchOptions()
@@ -158,18 +159,10 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         }
     }
 
-    private fun showSearchCriteriaDialog(): Boolean {
+    private fun initSearchOptions() {
 
-        SearchOptionsDialog
-                .getInstance(supportFragmentManager)
-                .show(supportFragmentManager, SearchOptionsDialog.getTag())
-
-        return true
-    }
-
-    private fun setViewUpdating(updating: Boolean) {
-
-        swipeToRefresh.isRefreshing = updating
+        searchQuery = LastSearchRequest.getQuery(this@SearchInITunesActivity)
+        searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
     }
 
     private fun searchInITunes() {
@@ -181,9 +174,17 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         //TODO: searchInITunes
     }
 
-    private fun initSearchOptions() {
+    private fun setViewUpdating(updating: Boolean) {
 
-        searchQuery = LastSearchRequest.getQuery(this@SearchInITunesActivity)
-        searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
+        swipeToRefresh.isRefreshing = updating
+    }
+
+    private fun showSearchOptionsDialog(): Boolean {
+
+        SearchOptionsDialog
+                .getInstance(supportFragmentManager)
+                .show(supportFragmentManager, SearchOptionsDialog.getTag())
+
+        return true
     }
 }
