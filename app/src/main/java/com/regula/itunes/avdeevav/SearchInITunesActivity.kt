@@ -151,8 +151,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun executeLastSearchRequest() {
 
-        searchQuery = LastSearchRequest.getQuery(this@SearchInITunesActivity)
-        searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
+        initSearchOptions()
 
         if (doSearchRequest) {
             searchInITunes()
@@ -180,5 +179,11 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         setViewUpdating(true)
         Toast.makeText(this@SearchInITunesActivity, "Search in ".plus(SearchMediaTypes.values()[searchMediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
         //TODO: searchInITunes
+    }
+
+    private fun initSearchOptions() {
+
+        searchQuery = LastSearchRequest.getQuery(this@SearchInITunesActivity)
+        searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
     }
 }
