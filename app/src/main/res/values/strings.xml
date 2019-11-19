@@ -1,10 +1,10 @@
 <resources>
     <!-- app -->
     <string name="appName">iTunes</string>
-    <!-- ITunesActivity -->
-    <string name="menuActionSearchCriteria">Search criteria</string>
+    <!-- SearchInITunesActivity -->
+    <string name="menuActionSearchCriteria">Search options</string>
     <string name="menuActionSearchInITunes">Search in iTunes…</string>
     <string name="menuActionStorage">Storage</string>
-    <!-- SearchCriteriaDialog -->
-    <string name="dialogTitle">Search criteria</string>
+    <!-- SearchOptionsDialog -->
+    <string name="dialogTitle">Search options</string>
 </resources>

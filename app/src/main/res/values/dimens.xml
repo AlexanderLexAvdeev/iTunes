@@ -1,6 +1,6 @@
 <resources>
     <!-- app -->
     <dimen name="edgeMargin">16dp</dimen>
-    <!-- iTunes activity -->
+    <!-- SearchInITunesActivity -->
     <dimen name="toolBarHeight">56dp</dimen>
 </resources>

@@ -8,21 +8,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 
-class SearchCriteriaDialog : DialogFragment(), DialogInterface.OnClickListener {
+class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     companion object {
-        private const val TAG = "SearchCriteriaDialog"
+        private const val TAG = "SearchOptionsDialog"
 
         @JvmStatic
-        fun getInstance(fragmentManager: FragmentManager): SearchCriteriaDialog {
+        fun getInstance(fragmentManager: FragmentManager): SearchOptionsDialog {
 
-            var searchCriteriaDialog: SearchCriteriaDialog? = fragmentManager.findFragmentByTag(TAG) as SearchCriteriaDialog?
+            var searchOptionsDialog: SearchOptionsDialog? = fragmentManager.findFragmentByTag(TAG) as SearchOptionsDialog?
 
-            if (searchCriteriaDialog == null) {
-                searchCriteriaDialog = SearchCriteriaDialog()
+            if (searchOptionsDialog == null) {
+                searchOptionsDialog = SearchOptionsDialog()
             }
 
-            return searchCriteriaDialog
+            return searchOptionsDialog
         }
 
         fun getTag(): String {
@@ -31,7 +31,7 @@ class SearchCriteriaDialog : DialogFragment(), DialogInterface.OnClickListener {
         }
     }
 
-    private lateinit var iSearchCriteriaDialog: ISearchCriteriaDialog
+    private lateinit var iSearchOptionsDialog: ISearchOptionsDialog
     private var checkedItem: Int = 0
 
 
@@ -39,7 +39,7 @@ class SearchCriteriaDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         super.onAttach(context)
 
-        iSearchCriteriaDialog = context as ISearchCriteriaDialog
+        iSearchOptionsDialog = context as ISearchOptionsDialog
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +56,11 @@ class SearchCriteriaDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         alertDialogBuilder.setTitle(R.string.dialogTitle)
         alertDialogBuilder.setSingleChoiceItems(
-                Array(SearchCriteria.values().size) {
-                    SearchCriteria.values()[it].criteria
+                Array(SearchOptions.values().size) {
+                    SearchOptions.values()[it].criteria
                 },
                 checkedItem,
-                this@SearchCriteriaDialog
+                this@SearchOptionsDialog
         )
 
         return alertDialogBuilder.create()
@@ -69,7 +69,7 @@ class SearchCriteriaDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
 
-        iSearchCriteriaDialog.onSearchCriteriaSelected(SearchCriteria.values()[which])
+        iSearchOptionsDialog.onSearchOptionSelected(SearchOptions.values()[which])
         dismiss()
     }
 }
