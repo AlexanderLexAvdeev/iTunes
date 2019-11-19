@@ -10,17 +10,20 @@ import androidx.fragment.app.FragmentManager
 
 class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
+    private var mediaTypeIndex: Int = 0
+
     companion object {
         private const val TAG = "SearchOptionsDialog"
 
         @JvmStatic
-        fun getInstance(fragmentManager: FragmentManager): SearchOptionsDialog {
+        fun getInstance(fragmentManager: FragmentManager, mediaTypeIndex: Int): SearchOptionsDialog {
 
             var searchOptionsDialog: SearchOptionsDialog? = fragmentManager.findFragmentByTag(TAG) as SearchOptionsDialog?
 
             if (searchOptionsDialog == null) {
                 searchOptionsDialog = SearchOptionsDialog()
             }
+            searchOptionsDialog.setMediaTypeIndex(mediaTypeIndex)
 
             return searchOptionsDialog
         }
@@ -58,7 +61,7 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
                 Array(SearchMediaTypes.values().size) {
                     SearchMediaTypes.values()[it].mediaType
                 },
-                LastSearchRequest.getMediaTypeIndex(context!!),
+                mediaTypeIndex,
                 this@SearchOptionsDialog
         )
 
@@ -70,5 +73,11 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         iSearchOptionsDialog.onSearchMediaTypeSelected(mediaTypeIndex)
         dismiss()
+    }
+
+
+    private fun setMediaTypeIndex(index: Int) {
+
+        mediaTypeIndex = index
     }
 }

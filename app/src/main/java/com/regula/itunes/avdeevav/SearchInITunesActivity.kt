@@ -182,7 +182,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     private fun showSearchOptionsDialog(): Boolean {
 
         SearchOptionsDialog
-                .getInstance(supportFragmentManager)
+                .getInstance(supportFragmentManager, searchMediaTypeIndex)
                 .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true
