@@ -167,7 +167,11 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun searchInITunes() {
 
-        searchItem.expandActionView()
+        if (searchItem.isActionViewExpanded) {
+            query = searchView.query.toString()
+        } else {
+            searchItem.expandActionView()
+        }
         searchView.clearFocus()
         setViewUpdating(true)
         Toast.makeText(this@SearchInITunesActivity, "Search in ".plus(SearchMediaTypes.values()[mediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
