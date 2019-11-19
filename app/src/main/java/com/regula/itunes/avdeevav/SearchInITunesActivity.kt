@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 
 class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
-    private var searchQuery: String = ""
-    private var searchMediaTypeIndex: Int = 0
-    private var doSearchRequest: Boolean = false
+    private var query: String = ""
+    private var mediaTypeIndex: Int = 0
+    private var doRequest: Boolean = false
 
     //TODO: implement ITunesItemListAdapter
     //private lateinit var iTunesItemListAdapter: ITunesItemListAdapter
@@ -39,7 +39,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         initITunesItemList()
 
         if (savedInstanceState == null) {
-            doSearchRequest = true
+            doRequest = true
         }
     }
 
@@ -60,9 +60,9 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         if (searchItem.isActionViewExpanded) {
             LastSearchRequest.setQuery(this@SearchInITunesActivity, searchView.query.toString())
         } else {
-            LastSearchRequest.setQuery(this@SearchInITunesActivity, searchQuery)
+            LastSearchRequest.setQuery(this@SearchInITunesActivity, query)
         }
-        LastSearchRequest.setMediaTypeIndex(this@SearchInITunesActivity, searchMediaTypeIndex)
+        LastSearchRequest.setMediaTypeIndex(this@SearchInITunesActivity, mediaTypeIndex)
     }
 
 
@@ -75,9 +75,9 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     }
 
 
-    override fun onSearchMediaTypeSelected(mediaTypeIndex: Int) {
+    override fun onMediaTypeSelected(mediaTypeIndex: Int) {
 
-        searchMediaTypeIndex = mediaTypeIndex
+        this.mediaTypeIndex = mediaTypeIndex
         searchInITunes()
     }
 
@@ -120,14 +120,14 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
 
                 searchView.onActionViewExpanded()
-                searchView.setQuery(searchQuery, false)
+                searchView.setQuery(query, false)
 
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
 
-                searchQuery = searchView.query.toString()
+                query = searchView.query.toString()
 
                 return true
             }
@@ -141,7 +141,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                searchQuery = searchView.query.toString()
+                this@SearchInITunesActivity.query = searchView.query.toString()
                 searchInITunes()
 
                 return true
@@ -154,15 +154,15 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
         initSearchOptions()
 
-        if (doSearchRequest) {
+        if (doRequest) {
             searchInITunes()
         }
     }
 
     private fun initSearchOptions() {
 
-        searchQuery = LastSearchRequest.getQuery(this@SearchInITunesActivity)
-        searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
+        query = LastSearchRequest.getQuery(this@SearchInITunesActivity)
+        mediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
     }
 
     private fun searchInITunes() {
@@ -170,7 +170,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         searchItem.expandActionView()
         searchView.clearFocus()
         setViewUpdating(true)
-        Toast.makeText(this@SearchInITunesActivity, "Search in ".plus(SearchMediaTypes.values()[searchMediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@SearchInITunesActivity, "Search in ".plus(SearchMediaTypes.values()[mediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
         //TODO: searchInITunes
     }
 
@@ -182,7 +182,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     private fun showSearchOptionsDialog(): Boolean {
 
         SearchOptionsDialog
-                .getInstance(supportFragmentManager, searchMediaTypeIndex)
+                .getInstance(supportFragmentManager, mediaTypeIndex)
                 .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true

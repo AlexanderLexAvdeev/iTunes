@@ -71,7 +71,7 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     override fun onClick(dialog: DialogInterface?, mediaTypeIndex: Int) {
 
-        iSearchOptionsDialog.onSearchMediaTypeSelected(mediaTypeIndex)
+        iSearchOptionsDialog.onMediaTypeSelected(mediaTypeIndex)
         dismiss()
     }
 
