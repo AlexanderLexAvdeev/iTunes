@@ -18,8 +18,15 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 
 class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
+    private var searchQuery: String = ""
+    private var searchMediaTypeIndex: Int = 0
+    private var doSearchRequest: Boolean = false
+
     //TODO: implement ITunesItemListAdapter
     //private lateinit var iTunesItemListAdapter: ITunesItemListAdapter
+
+    private lateinit var searchItem: MenuItem
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -30,7 +37,9 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         initSwipeToRefresh()
         initITunesItemList()
 
-        //TODO: search in iTunes
+        if (savedInstanceState == null) {
+            doSearchRequest = true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -38,8 +47,21 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         menuInflater.inflate(R.menu.menu_itunes_activity, menu)
 
         initSearchView(menu)
+        executeLastSearchRequest()
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPause() {
+
+        super.onPause()
+
+        if (searchItem.isActionViewExpanded) {
+            LastSearchRequest.setQuery(this@SearchInITunesActivity, searchView.query.toString())
+        } else {
+            LastSearchRequest.setQuery(this@SearchInITunesActivity, searchQuery)
+        }
+        LastSearchRequest.setMediaTypeIndex(this@SearchInITunesActivity, searchMediaTypeIndex)
     }
 
 
@@ -52,18 +74,35 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     }
 
 
-    override fun onSearchOptionSelected(searchOption: SearchOptions) {
+    override fun onSearchMediaTypeSelected(mediaTypeIndex: Int) {
 
-        Toast.makeText(this@SearchInITunesActivity, searchOption.value, Toast.LENGTH_SHORT).show()
-        //TODO: search in iTunes
+        searchMediaTypeIndex = mediaTypeIndex
+        Toast.makeText(this@SearchInITunesActivity, SearchMediaTypes.values()[mediaTypeIndex].mediaType, Toast.LENGTH_SHORT).show()
+        //TODO: searchInITunes
     }
 
 
     private fun initSearchView(menu: Menu) {
 
-        val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
-        val searchView: SearchView = searchItem.actionView as SearchView
+        searchItem = menu.findItem(R.id.actionSearch)
+        searchView = searchItem.actionView as SearchView
 
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+
+                searchView.onActionViewExpanded()
+                searchView.setQuery(searchQuery, false)
+
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+
+                searchQuery = searchView.query.toString()
+
+                return true
+            }
+        })
         searchView.queryHint = resources.getString(R.string.menuActionSearchInITunes)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -73,8 +112,9 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
 
+                searchQuery = searchView.query.toString()
                 Toast.makeText(this@SearchInITunesActivity, "search...", Toast.LENGTH_SHORT).show()
-                //TODO: search in iTunes
+                //TODO: searchInITunes
 
                 return true
             }
@@ -86,7 +126,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
         swipeToRefresh.setOnRefreshListener {
             setViewUpdating(false)
-            //TODO: search in iTunes
+            //TODO: searchInITunes
         }
     }
 
@@ -110,6 +150,17 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         })
         iTunesItemList.setHasFixedSize(true)
         //iTunesItemList.adapter = iTunesItemListAdapter
+    }
+
+    private fun executeLastSearchRequest() {
+
+        searchQuery = LastSearchRequest.getQuery(this@SearchInITunesActivity)
+        searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
+
+        if (doSearchRequest) {
+            Toast.makeText(this@SearchInITunesActivity, "search...", Toast.LENGTH_SHORT).show()
+            //TODO: searchInITunes
+        }
     }
 
     private fun showSearchCriteriaDialog(): Boolean {

@@ -32,7 +32,6 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     private lateinit var iSearchOptionsDialog: ISearchOptionsDialog
-    private var checkedItem: Int = 0
 
 
     override fun onAttach(context: Context) {
@@ -56,10 +55,10 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         alertDialogBuilder.setTitle(R.string.dialogTitle)
         alertDialogBuilder.setSingleChoiceItems(
-                Array(SearchOptions.values().size) {
-                    SearchOptions.values()[it].criteria
+                Array(SearchMediaTypes.values().size) {
+                    SearchMediaTypes.values()[it].mediaType
                 },
-                checkedItem,
+                LastSearchRequest.getMediaTypeIndex(context!!),
                 this@SearchOptionsDialog
         )
 
@@ -67,9 +66,9 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
+    override fun onClick(dialog: DialogInterface?, mediaTypeIndex: Int) {
 
-        iSearchOptionsDialog.onSearchOptionSelected(SearchOptions.values()[which])
+        iSearchOptionsDialog.onSearchMediaTypeSelected(mediaTypeIndex)
         dismiss()
     }
 }
