@@ -77,8 +77,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     override fun onSearchMediaTypeSelected(mediaTypeIndex: Int) {
 
         searchMediaTypeIndex = mediaTypeIndex
-        Toast.makeText(this@SearchInITunesActivity, SearchMediaTypes.values()[mediaTypeIndex].mediaType, Toast.LENGTH_SHORT).show()
-        //TODO: searchInITunes
+        searchInITunes()
     }
 
 
@@ -113,8 +112,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
                 searchQuery = searchView.query.toString()
-                Toast.makeText(this@SearchInITunesActivity, "search...", Toast.LENGTH_SHORT).show()
-                //TODO: searchInITunes
+                searchInITunes()
 
                 return true
             }
@@ -125,8 +123,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     private fun initSwipeToRefresh() {
 
         swipeToRefresh.setOnRefreshListener {
-            setViewUpdating(false)
-            //TODO: searchInITunes
+            searchInITunes()
         }
     }
 
@@ -158,8 +155,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         searchMediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
 
         if (doSearchRequest) {
-            Toast.makeText(this@SearchInITunesActivity, "search...", Toast.LENGTH_SHORT).show()
-            //TODO: searchInITunes
+            searchInITunes()
         }
     }
 
@@ -175,5 +171,14 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
     private fun setViewUpdating(updating: Boolean) {
 
         swipeToRefresh.isRefreshing = updating
+    }
+
+    private fun searchInITunes() {
+
+        searchItem.expandActionView()
+        searchView.clearFocus()
+        setViewUpdating(true)
+        Toast.makeText(this@SearchInITunesActivity, "Search in ".plus(SearchMediaTypes.values()[searchMediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
+        //TODO: searchInITunes
     }
 }
