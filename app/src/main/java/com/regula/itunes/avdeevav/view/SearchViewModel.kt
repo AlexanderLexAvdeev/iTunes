@@ -21,9 +21,11 @@ class SearchViewModel : ViewModel() {
     fun requestResult(query: String, mediaType: String) {
 
         Thread(Runnable {
+
+            val searchRequest: String = query.replace(" ", "+")
             val response: Response<SearchResults> = HttpClient
                     .getSearchService()
-                    .getResult(query, mediaType)
+                    .getResult(searchRequest, mediaType)
                     .execute()
 
             Handler(Looper.getMainLooper()).post {
