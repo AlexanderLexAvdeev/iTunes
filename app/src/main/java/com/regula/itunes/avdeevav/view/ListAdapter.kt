@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.itunes_list_item.view.*
 
 import com.regula.itunes.avdeevav.R
+import com.regula.itunes.avdeevav.repository.ImageLoader
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 
 
@@ -50,7 +51,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
         fun bind(listItem: SearchResult) {
 
-            //itemView.artwork.setImageBitmap()
+            ImageLoader.load(listItem.artworkUrl100 ?: "", itemView.artwork)
             itemView.name.text = listItem.trackName
             itemView.author.text = listItem.artistName
             itemView.media.text = listItem.kind
