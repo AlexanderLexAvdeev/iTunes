@@ -12,12 +12,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.regula.itunes.avdeevav.repository.LastSearchRequest
-import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.SearchMediaTypes
 
 import kotlinx.android.synthetic.main.activity_search_in_itunes.*
 import kotlinx.android.synthetic.main.content_search_in_itunes.*
+
+import com.regula.itunes.avdeevav.repository.LastSearchRequest
+import com.regula.itunes.avdeevav.R
+import com.regula.itunes.avdeevav.repository.SearchMediaTypes
 
 
 class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
@@ -26,8 +27,7 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
     private var mediaTypeIndex: Int = 0
     private var doRequest: Boolean = false
 
-    //TODO: implement ITunesItemListAdapter
-    //private lateinit var iTunesItemListAdapter: ITunesItemListAdapter
+    private lateinit var listAdapter: ListAdapter
     private lateinit var searchViewModel: SearchViewModel
 
     private lateinit var searchItem: MenuItem
@@ -97,24 +97,24 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun initSearchResultList() {
 
-        //iTunesItemListAdapter = ITunesItemListAdapter()
+        listAdapter = ListAdapter()
 
-        iTunesItemList.layoutManager = LinearLayoutManager(this@SearchActivity, RecyclerView.VERTICAL, false)
-        iTunesItemList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+        list.layoutManager = LinearLayoutManager(this@SearchActivity, RecyclerView.VERTICAL, false)
+        list.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 if (parent.getChildAdapterPosition(view) == 0) {
-                    outRect.top = resources.getDimensionPixelSize(R.dimen.iTunesItemListOffsetVertical)
+                    outRect.top = resources.getDimensionPixelSize(R.dimen.listOffsetVertical)
                 } else {
                     parent.adapter?.let { adapter ->
                         if (parent.getChildAdapterPosition(view) == adapter.itemCount - 1) {
-                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.iTunesItemListOffsetVertical)
+                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.listOffsetVertical)
                         }
                     }
                 }
             }
         })
-        iTunesItemList.setHasFixedSize(true)
-        //iTunesItemList.adapter = iTunesItemListAdapter
+        list.setHasFixedSize(true)
+        list.adapter = listAdapter
     }
 
     private fun initSearchViewModel() {
@@ -124,8 +124,14 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
         searchViewModel.getResultListObservable().observe(this, Observer {
             it?.let {
                 setViewUpdating(false)
-                Toast.makeText(this@SearchActivity, "Found ${it.size} items", Toast.LENGTH_SHORT).show()
-                //iTunesItemListAdapter.updateSearchResult(it)
+                if (it.isEmpty()) {
+                    Toast.makeText(
+                            this@SearchActivity,
+                            resources.getString(R.string.messageNothingFound),
+                            Toast.LENGTH_SHORT
+                    ).show()
+                }
+                listAdapter.update(it)
             }
         })
     }
@@ -203,10 +209,7 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun showSearchOptionsDialog(): Boolean {
 
-        SearchOptionsDialog.getInstance(
-            supportFragmentManager,
-            mediaTypeIndex
-        )
+        SearchOptionsDialog.getInstance(supportFragmentManager, mediaTypeIndex)
                 .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true

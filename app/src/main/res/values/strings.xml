@@ -5,6 +5,7 @@
     <string name="menuActionSearchCriteria">Search options</string>
     <string name="menuActionSearchInITunes">Search in iTunes…</string>
     <string name="menuActionStorage">Storage</string>
+    <string name="messageNothingFound">Nothing found</string>
     <!-- SearchOptionsDialog -->
     <string name="dialogTitle">Search in</string>
 </resources>
