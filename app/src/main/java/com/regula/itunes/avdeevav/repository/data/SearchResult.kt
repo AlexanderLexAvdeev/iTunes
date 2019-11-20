@@ -7,8 +7,8 @@ data class SearchResult(
         var artistName: String? = "",
         var kind: String? = "",
         var formattedPrice: String? = null,
-        var trackPrice: Float? = 0.00f,
-        var price: Float? = 0.00f,
+        var trackPrice: Float? = null,
+        var price: Float? = null,
         var currency: String? = "",
         var favorite: Boolean? = false
 )
