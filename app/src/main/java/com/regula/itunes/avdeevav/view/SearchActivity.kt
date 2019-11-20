@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -28,7 +29,9 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
     private var doRequest: Boolean = false
 
     private lateinit var listAdapter: ListAdapter
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by lazy {
+        ViewModelProviders.of(this@SearchActivity).get(SearchViewModel::class.java)
+    }
 
     private lateinit var searchItem: MenuItem
     private lateinit var searchView: SearchView
@@ -118,8 +121,6 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
     }
 
     private fun initSearchViewModel() {
-
-        searchViewModel = SearchViewModel()
 
         searchViewModel.getResultListObservable().observe(this, Observer {
             it?.let {
