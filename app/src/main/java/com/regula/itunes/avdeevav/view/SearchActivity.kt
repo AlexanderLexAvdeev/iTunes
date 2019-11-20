@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav
+package com.regula.itunes.avdeevav.view
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -12,6 +12,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.regula.itunes.avdeevav.repository.LastSearchRequest
+import com.regula.itunes.avdeevav.R
+import com.regula.itunes.avdeevav.repository.SearchMediaTypes
 
 import kotlinx.android.synthetic.main.activity_search_in_itunes.*
 import kotlinx.android.synthetic.main.content_search_in_itunes.*
@@ -200,8 +203,10 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun showSearchOptionsDialog(): Boolean {
 
-        SearchOptionsDialog
-                .getInstance(supportFragmentManager, mediaTypeIndex)
+        SearchOptionsDialog.getInstance(
+            supportFragmentManager,
+            mediaTypeIndex
+        )
                 .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true

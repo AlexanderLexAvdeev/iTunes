@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav
+package com.regula.itunes.avdeevav.repository
 
 enum class SearchMediaTypes(val mediaType: String, val value: String) {
 

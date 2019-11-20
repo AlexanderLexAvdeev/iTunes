@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository
+package com.regula.itunes.avdeevav.repository.data
 
 data class SearchResult(
         var trackId: Long? = -1,

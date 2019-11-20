@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav
+package com.regula.itunes.avdeevav.view
 
 import android.app.Dialog
 import android.content.Context
@@ -7,6 +7,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.regula.itunes.avdeevav.R
+import com.regula.itunes.avdeevav.repository.SearchMediaTypes
 
 class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
@@ -18,7 +20,9 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         @JvmStatic
         fun getInstance(fragmentManager: FragmentManager, mediaTypeIndex: Int): SearchOptionsDialog {
 
-            var searchOptionsDialog: SearchOptionsDialog? = fragmentManager.findFragmentByTag(TAG) as SearchOptionsDialog?
+            var searchOptionsDialog: SearchOptionsDialog? = fragmentManager.findFragmentByTag(
+                TAG
+            ) as SearchOptionsDialog?
 
             if (searchOptionsDialog == null) {
                 searchOptionsDialog = SearchOptionsDialog()

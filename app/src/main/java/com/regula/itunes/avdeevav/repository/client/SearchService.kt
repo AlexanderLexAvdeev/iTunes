@@ -4,7 +4,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-import com.regula.itunes.avdeevav.repository.SearchResults
+import com.regula.itunes.avdeevav.repository.data.SearchResults
 
 interface SearchService {
 

@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav
+package com.regula.itunes.avdeevav.view
 
 import android.os.Handler
 import android.os.Looper
@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 
 import retrofit2.Response
 
-import com.regula.itunes.avdeevav.repository.SearchResult
-import com.regula.itunes.avdeevav.repository.SearchResults
+import com.regula.itunes.avdeevav.repository.data.SearchResult
+import com.regula.itunes.avdeevav.repository.data.SearchResults
 import com.regula.itunes.avdeevav.repository.client.HttpClient
 
 class SearchViewModel : ViewModel() {

@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav
+package com.regula.itunes.avdeevav.view
 
 interface ISearchOptionsDialog {
 
