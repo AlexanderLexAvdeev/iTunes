@@ -9,6 +9,7 @@ import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -24,6 +25,7 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     //TODO: implement ITunesItemListAdapter
     //private lateinit var iTunesItemListAdapter: ITunesItemListAdapter
+    private lateinit var searchViewModel: SearchViewModel
 
     private lateinit var searchItem: MenuItem
     private lateinit var searchView: SearchView
@@ -36,7 +38,8 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
         setContentView(R.layout.activity_search_in_itunes)
         setSupportActionBar(toolbar)
         initSwipeToRefresh()
-        initITunesItemList()
+        initSearchResultList()
+        initSearchViewModel()
 
         if (savedInstanceState == null) {
             doRequest = true
@@ -89,7 +92,7 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
         }
     }
 
-    private fun initITunesItemList() {
+    private fun initSearchResultList() {
 
         //iTunesItemListAdapter = ITunesItemListAdapter()
 
@@ -109,6 +112,19 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
         })
         iTunesItemList.setHasFixedSize(true)
         //iTunesItemList.adapter = iTunesItemListAdapter
+    }
+
+    private fun initSearchViewModel() {
+
+        searchViewModel = SearchViewModel()
+
+        searchViewModel.getResultListObservable().observe(this, Observer {
+            it?.let {
+                setViewUpdating(false)
+                Toast.makeText(this@SearchActivity, "Found ${it.size} items", Toast.LENGTH_SHORT).show()
+                //iTunesItemListAdapter.updateSearchResult(it)
+            }
+        })
     }
 
     private fun initSearchView(menu: Menu) {
@@ -174,8 +190,7 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
         }
         searchView.clearFocus()
         setViewUpdating(true)
-        Toast.makeText(this@SearchActivity, "Search in ".plus(SearchMediaTypes.values()[mediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
-        //TODO: searchInITunes
+        searchViewModel.requestResult(query, SearchMediaTypes.values()[mediaTypeIndex].value)
     }
 
     private fun setViewUpdating(updating: Boolean) {
