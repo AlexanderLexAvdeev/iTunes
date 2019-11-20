@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_search_in_itunes.*
 import kotlinx.android.synthetic.main.content_search_in_itunes.*
 
 
-class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
+class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private var query: String = ""
     private var mediaTypeIndex: Int = 0
@@ -58,11 +58,11 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         super.onPause()
 
         if (searchItem.isActionViewExpanded) {
-            LastSearchRequest.setQuery(this@SearchInITunesActivity, searchView.query.toString())
+            LastSearchRequest.setQuery(this@SearchActivity, searchView.query.toString())
         } else {
-            LastSearchRequest.setQuery(this@SearchInITunesActivity, query)
+            LastSearchRequest.setQuery(this@SearchActivity, query)
         }
-        LastSearchRequest.setMediaTypeIndex(this@SearchInITunesActivity, mediaTypeIndex)
+        LastSearchRequest.setMediaTypeIndex(this@SearchActivity, mediaTypeIndex)
     }
 
 
@@ -93,7 +93,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
         //iTunesItemListAdapter = ITunesItemListAdapter()
 
-        iTunesItemList.layoutManager = LinearLayoutManager(this@SearchInITunesActivity, RecyclerView.VERTICAL, false)
+        iTunesItemList.layoutManager = LinearLayoutManager(this@SearchActivity, RecyclerView.VERTICAL, false)
         iTunesItemList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 if (parent.getChildAdapterPosition(view) == 0) {
@@ -141,7 +141,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                this@SearchInITunesActivity.query = searchView.query.toString()
+                this@SearchActivity.query = searchView.query.toString()
                 searchInITunes()
 
                 return true
@@ -161,8 +161,8 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun initSearchOptions() {
 
-        query = LastSearchRequest.getQuery(this@SearchInITunesActivity)
-        mediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchInITunesActivity)
+        query = LastSearchRequest.getQuery(this@SearchActivity)
+        mediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchActivity)
     }
 
     private fun searchInITunes() {
@@ -174,7 +174,7 @@ class SearchInITunesActivity : AppCompatActivity(), ISearchOptionsDialog {
         }
         searchView.clearFocus()
         setViewUpdating(true)
-        Toast.makeText(this@SearchInITunesActivity, "Search in ".plus(SearchMediaTypes.values()[mediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@SearchActivity, "Search in ".plus(SearchMediaTypes.values()[mediaTypeIndex].mediaType), Toast.LENGTH_SHORT).show()
         //TODO: searchInITunes
     }
 
