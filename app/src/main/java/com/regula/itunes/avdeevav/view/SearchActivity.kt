@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.loader.app.LoaderManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -122,19 +123,20 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun initSearchViewModel() {
 
-        searchViewModel.getResultListObservable().observe(this, Observer {
-            it?.let {
-                setViewUpdating(false)
-                if (it.isEmpty()) {
-                    Toast.makeText(
-                            this@SearchActivity,
-                            resources.getString(R.string.messageNothingFound),
-                            Toast.LENGTH_SHORT
-                    ).show()
-                }
-                listAdapter.update(it)
-            }
-        })
+        searchViewModel.getResultListObservable(LoaderManager.getInstance(this@SearchActivity))
+                .observe(this, Observer {
+                    it?.let {
+                        setViewUpdating(false)
+                        if (it.isEmpty()) {
+                            Toast.makeText(
+                                    this@SearchActivity,
+                                    resources.getString(R.string.messageNothingFound),
+                                    Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        listAdapter.update(it)
+                    }
+                })
     }
 
     private fun initSearchView(menu: Menu) {
