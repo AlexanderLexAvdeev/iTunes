@@ -23,7 +23,7 @@ import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.SearchMediaTypes
 
 
-class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
+class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialog {
 
     private var query: String = ""
     private var mediaTypeIndex: Int = 0
@@ -85,6 +85,12 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
     }
 
 
+    override fun showError(error: String) {
+
+        setViewUpdating(false)
+        Toast.makeText(this@SearchActivity, error, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onMediaTypeSelected(mediaTypeIndex: Int) {
 
         this.mediaTypeIndex = mediaTypeIndex
@@ -123,20 +129,22 @@ class SearchActivity : AppCompatActivity(), ISearchOptionsDialog {
 
     private fun initSearchViewModel() {
 
-        searchViewModel.getResultListObservable(LoaderManager.getInstance(this@SearchActivity))
-                .observe(this, Observer {
-                    it?.let {
-                        setViewUpdating(false)
-                        if (it.isEmpty()) {
-                            Toast.makeText(
-                                    this@SearchActivity,
-                                    resources.getString(R.string.messageNothingFound),
-                                    Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        listAdapter.update(it)
-                    }
-                })
+        searchViewModel.getResultListObservable(
+                LoaderManager.getInstance(this@SearchActivity),
+                this@SearchActivity
+        ).observe(this, Observer {
+            it?.let {
+                setViewUpdating(false)
+                if (it.isEmpty()) {
+                    Toast.makeText(
+                            this@SearchActivity,
+                            resources.getString(R.string.messageNothingFound),
+                            Toast.LENGTH_SHORT
+                    ).show()
+                }
+                listAdapter.update(it)
+            }
+        })
     }
 
     private fun initSearchView(menu: Menu) {

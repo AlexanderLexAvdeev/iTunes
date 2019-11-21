@@ -1,6 +1,8 @@
 package com.regula.itunes.avdeevav.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,12 +24,17 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
     private lateinit var mediaType: String
 
     private lateinit var loaderManager: LoaderManager
+    private lateinit var iSearchActivity: ISearchActivity
     private var resultList: MutableLiveData<List<SearchResult>> = MutableLiveData()
 
 
-    fun getResultListObservable(loaderManager: LoaderManager): MutableLiveData<List<SearchResult>> {
+    fun getResultListObservable(
+            loaderManager: LoaderManager,
+            iSearchActivity: ISearchActivity
+    ): MutableLiveData<List<SearchResult>> {
 
         this.loaderManager = loaderManager
+        this.iSearchActivity = iSearchActivity
 
         return resultList
     }
@@ -57,5 +64,9 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
     }
 
     override fun onError(message: String) {
+
+        Handler(Looper.getMainLooper()).post {
+            iSearchActivity.showError(message)
+        }
     }
 }
