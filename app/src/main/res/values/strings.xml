@@ -1,6 +1,9 @@
 <resources>
     <!-- app -->
     <string name="appName">iTunes</string>
+    <!-- Connection -->
+    <string name="connectionError">Connection error</string>
+    <string name="noConnection">No connection</string>
     <!-- SearchInITunesActivity -->
     <string name="menuActionSearchCriteria">Search options</string>
     <string name="menuActionSearchInITunes">Search in iTunes…</string>
