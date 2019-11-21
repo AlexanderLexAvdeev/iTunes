@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
+import com.regula.itunes.avdeevav.repository.SearchQueryFormatter
 
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.loader.ErrorCallback
@@ -50,7 +51,11 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<SearchResult>> {
 
-        return SearchResultLoader(query, mediaType, this@SearchViewModel)
+        return SearchResultLoader(
+                SearchQueryFormatter.getFormattedRequest(query),
+                mediaType,
+                this@SearchViewModel
+        )
     }
 
     override fun onLoadFinished(loader: Loader<List<SearchResult>>, data: List<SearchResult>?) {
