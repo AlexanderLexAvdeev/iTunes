@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.view
+package com.regula.itunes.avdeevav.repository.model
 
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +13,7 @@ import com.regula.itunes.avdeevav.repository.SearchQueryFormatter
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.loader.ErrorCallback
 import com.regula.itunes.avdeevav.repository.loader.SearchResultLoader
+import com.regula.itunes.avdeevav.view.ISearchActivity
 
 
 class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchResult>>, ErrorCallback {

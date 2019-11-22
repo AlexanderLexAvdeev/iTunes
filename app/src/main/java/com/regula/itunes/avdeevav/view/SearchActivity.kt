@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 import com.regula.itunes.avdeevav.repository.LastSearchRequest
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.SearchMediaTypes
+import com.regula.itunes.avdeevav.repository.model.SearchViewModel
 
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialog {
