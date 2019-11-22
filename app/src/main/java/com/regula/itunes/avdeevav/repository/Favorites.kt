@@ -49,7 +49,13 @@ class Favorites {
         realm = Realm.getInstance(realmConfig)
         realm.executeTransactionAsync(
                 { realm: Realm ->
-                    realm.insertOrUpdate(searchResult.toFavorite())
+                    val realmResults: RealmResults<Favorite> = realm
+                            .where(Favorite::class.java)
+                            .equalTo("trackId", searchResult.trackId)
+                            .findAll()
+                    if (realmResults.isEmpty()) {
+                        realm.insertOrUpdate(searchResult.toFavorite())
+                    }
 
                     index = listAdapter.getList().indexOf(searchResult)
                 },
