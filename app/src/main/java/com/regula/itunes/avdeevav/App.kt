@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 
+import io.realm.Realm
+
 class App : Application() {
 
     companion object {
@@ -18,5 +20,6 @@ class App : Application() {
         super.onCreate()
 
         context = applicationContext
+        Realm.init(context)
     }
 }
