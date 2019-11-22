@@ -11,11 +11,11 @@
         app:showAsAction="always|collapseActionView" />
 
     <item
-        android:id="@+id/actionSearchCriteria"
+        android:id="@+id/actionSearchOptions"
         android:title="@string/menuActionSearchCriteria" />
 
     <item
-        android:id="@+id/actionStorage"
-        android:title="@string/menuActionStorage" />
+        android:id="@+id/actionFavorites"
+        android:title="@string/menuActionFavorites" />
 
 </menu>

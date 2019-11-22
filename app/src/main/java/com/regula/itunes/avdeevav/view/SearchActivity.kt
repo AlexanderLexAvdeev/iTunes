@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 import com.regula.itunes.avdeevav.repository.LastSearchRequest
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.SearchMediaTypes
+import com.regula.itunes.avdeevav.repository.model.FavoritesViewModel
 import com.regula.itunes.avdeevav.repository.model.SearchViewModel
 
 
@@ -33,6 +34,9 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     private lateinit var listAdapter: ListAdapter
     private val searchViewModel: SearchViewModel by lazy {
         ViewModelProviders.of(this@SearchActivity).get(SearchViewModel::class.java)
+    }
+    private val favoritesViewModel: FavoritesViewModel by lazy {
+        ViewModelProviders.of(this@SearchActivity).get(FavoritesViewModel::class.java)
     }
 
     private lateinit var searchItem: MenuItem
@@ -47,7 +51,8 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
         setSupportActionBar(toolbar)
         initSwipeToRefresh()
         initSearchResultList()
-        initSearchViewModel()
+        observeSearchViewModel()
+        observeFavoritesViewModel()
 
         if (savedInstanceState == null) {
             doRequest = true
@@ -80,8 +85,9 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return when (item.itemId) {
-            R.id.actionSearchCriteria -> showSearchOptionsDialog()
-            else -> super.onOptionsItemSelected(item)
+            R.id.actionFavorites -> showFavorites()
+            R.id.actionSearchOptions -> showSearchOptionsDialog()
+            else -> false
         }
     }
 
@@ -130,24 +136,42 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
         list.adapter = listAdapter
     }
 
-    private fun initSearchViewModel() {
+    private fun observeSearchViewModel() {
 
         searchViewModel.getResultListObservable(
-            LoaderManager.getInstance(this@SearchActivity),
-            this@SearchActivity
+                LoaderManager.getInstance(this@SearchActivity),
+                this@SearchActivity
         ).observe(this, Observer {
             it?.let {
                 setViewUpdating(false)
                 if (it.isEmpty()) {
                     Toast.makeText(
-                        this@SearchActivity,
-                        resources.getString(R.string.messageNothingFound),
-                        Toast.LENGTH_SHORT
+                            this@SearchActivity,
+                            resources.getString(R.string.messageNothingFound),
+                            Toast.LENGTH_SHORT
                     ).show()
                 }
                 listAdapter.update(it)
             }
         })
+    }
+
+    private fun observeFavoritesViewModel() {
+
+        favoritesViewModel.getFavoritesListObservable()
+                .observe(this, Observer {
+                    it?.let {
+                        setViewUpdating(false)
+                        if (it.isEmpty()) {
+                            Toast.makeText(
+                                    this@SearchActivity,
+                                    resources.getString(R.string.messageNothingToShow),
+                                    Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        listAdapter.update(it)
+                    }
+                })
     }
 
     private fun initSearchView(menu: Menu) {
@@ -206,6 +230,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
 
     private fun searchInITunes() {
 
+        supportActionBar?.title = resources.getString(R.string.appName)
         if (searchItem.isActionViewExpanded) {
             query = searchView.query.toString()
         } else {
@@ -216,6 +241,14 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
         searchViewModel.requestResult(query, SearchMediaTypes.values()[mediaTypeIndex].value)
     }
 
+    private fun showFavorites(): Boolean {
+
+        supportActionBar?.title = resources.getString(R.string.menuActionFavorites)
+        favoritesViewModel.getFavorites()
+
+        return true
+    }
+
     private fun setViewUpdating(updating: Boolean) {
 
         swipeToRefresh.isRefreshing = updating
@@ -224,7 +257,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     private fun showSearchOptionsDialog(): Boolean {
 
         SearchOptionsDialog.getInstance(supportFragmentManager, mediaTypeIndex)
-            .show(supportFragmentManager, SearchOptionsDialog.getTag())
+                .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true
     }

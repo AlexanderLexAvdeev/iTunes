@@ -15,7 +15,7 @@ class FavoritesViewModel : ViewModel() {
 
     fun getFavorites() {
 
-        //
+        resultList.value = ArrayList()
     }
 
     fun addToFavirites(searchResult: SearchResult) {
