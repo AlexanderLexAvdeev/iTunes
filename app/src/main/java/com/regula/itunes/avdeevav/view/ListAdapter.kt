@@ -51,7 +51,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
         fun bind(listItem: SearchResult) {
 
-            ImageLoader.load(listItem.artworkUrl100 ?: "", itemView.artwork)
+            ImageLoader.load(listItem.artworkUrl100 ?: "undefined", itemView.artwork)
             itemView.name.text = listItem.trackName
             itemView.author.text = listItem.artistName
             itemView.media.text = listItem.kind
