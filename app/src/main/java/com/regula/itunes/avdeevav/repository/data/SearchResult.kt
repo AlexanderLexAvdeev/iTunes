@@ -1,6 +1,8 @@
 package com.regula.itunes.avdeevav.repository.data
 
-data class SearchResult(
+import io.realm.RealmObject
+
+open class SearchResult(
         var trackId: Long? = -1,
         var artworkUrl100: String? = "",
         var trackName: String? = "",
@@ -11,4 +13,4 @@ data class SearchResult(
         var price: Float? = null,
         var currency: String? = "",
         var favorite: Boolean? = false
-)
+) : RealmObject()
