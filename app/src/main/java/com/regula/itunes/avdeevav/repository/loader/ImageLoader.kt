@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository
+package com.regula.itunes.avdeevav.repository.loader
 
 import android.widget.ImageView
 

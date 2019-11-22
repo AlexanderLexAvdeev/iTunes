@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.itunes_list_item.view.*
 
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.ImageLoader
+import com.regula.itunes.avdeevav.repository.loader.ImageLoader
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 
 
