@@ -1,10 +1,12 @@
 package com.regula.itunes.avdeevav.repository
 
+import com.regula.itunes.avdeevav.repository.data.Favorite
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.view.ListAdapter
+import io.realm.RealmResults
 
 class Favorites {
 
@@ -31,7 +33,7 @@ class Favorites {
         realm = Realm.getInstance(realmConfig)
         realm.executeTransactionAsync(
                 { realm ->
-                    favorites = realm.where(SearchResult::class.java).findAll().toList()
+                    favorites = realm.where(Favorite::class.java).findAll().toList()
                 },
                 {
                     favoritesCallback.onResult(favorites)
@@ -47,7 +49,7 @@ class Favorites {
         realm = Realm.getInstance(realmConfig)
         realm.executeTransactionAsync(
                 { realm: Realm ->
-                    realm.insertOrUpdate(searchResult)
+                    realm.insertOrUpdate(searchResult.toFavorite())
 
                     index = listAdapter.getList().indexOf(searchResult)
                 },
@@ -71,7 +73,7 @@ class Favorites {
         realm.executeTransactionAsync(
                 { realm: Realm ->
                     realm
-                            .where(SearchResult::class.java)
+                            .where(Favorite::class.java)
                             .equalTo("trackId", searchResult.trackId)
                             .findAll()
                             .deleteAllFromRealm()
@@ -87,6 +89,47 @@ class Favorites {
                 {
                     // error callback not implemented
                 }
+        )
+    }
+
+
+    private fun RealmResults<Favorite>.toList(): List<SearchResult> {
+
+        val dataList = ArrayList<SearchResult>()
+
+        for (realmResult in this) {
+            dataList.add(
+                    SearchResult(
+                            realmResult.trackId,
+                            realmResult.artworkUrl100,
+                            realmResult.trackName,
+                            realmResult.artistName,
+                            realmResult.kind,
+                            realmResult.formattedPrice,
+                            realmResult.trackPrice,
+                            realmResult.price,
+                            realmResult.currency,
+                            realmResult.favorite
+                    )
+            )
+        }
+
+        return dataList
+    }
+
+    private fun SearchResult.toFavorite(): Favorite {
+
+        return Favorite(
+                this.trackId,
+                this.artworkUrl100,
+                this.trackName,
+                this.artistName,
+                this.kind,
+                this.formattedPrice,
+                this.trackPrice,
+                this.price,
+                this.currency,
+                true
         )
     }
 }
