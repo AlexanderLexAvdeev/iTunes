@@ -62,17 +62,18 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         alertDialogBuilder.setTitle(R.string.dialogTitle)
         alertDialogBuilder.setSingleChoiceItems(
-                Array(SearchMediaTypes.values().size) {
-                    SearchMediaTypes.values()[it].mediaType
-                },
-                mediaTypeIndex,
-                this@SearchOptionsDialog
+            Array(SearchMediaTypes.values().size) {
+                SearchMediaTypes.values()[it].mediaType
+            },
+            mediaTypeIndex,
+            this@SearchOptionsDialog
         )
 
         return alertDialogBuilder.create()
     }
 
 
+    // DialogInterface.OnClickListener
     override fun onClick(dialog: DialogInterface?, mediaTypeIndex: Int) {
 
         iSearchOptionsDialog.onMediaTypeSelected(mediaTypeIndex)

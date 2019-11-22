@@ -85,12 +85,14 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     }
 
 
+    // ISearchActivity
     override fun showError(error: String) {
 
         setViewUpdating(false)
         Toast.makeText(this@SearchActivity, error, Toast.LENGTH_SHORT).show()
     }
 
+    // ISearchOptionsDialog
     override fun onMediaTypeSelected(mediaTypeIndex: Int) {
 
         this.mediaTypeIndex = mediaTypeIndex
@@ -130,16 +132,16 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     private fun initSearchViewModel() {
 
         searchViewModel.getResultListObservable(
-                LoaderManager.getInstance(this@SearchActivity),
-                this@SearchActivity
+            LoaderManager.getInstance(this@SearchActivity),
+            this@SearchActivity
         ).observe(this, Observer {
             it?.let {
                 setViewUpdating(false)
                 if (it.isEmpty()) {
                     Toast.makeText(
-                            this@SearchActivity,
-                            resources.getString(R.string.messageNothingFound),
-                            Toast.LENGTH_SHORT
+                        this@SearchActivity,
+                        resources.getString(R.string.messageNothingFound),
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
                 listAdapter.update(it)
@@ -221,7 +223,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     private fun showSearchOptionsDialog(): Boolean {
 
         SearchOptionsDialog.getInstance(supportFragmentManager, mediaTypeIndex)
-                .show(supportFragmentManager, SearchOptionsDialog.getTag())
+            .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true
     }

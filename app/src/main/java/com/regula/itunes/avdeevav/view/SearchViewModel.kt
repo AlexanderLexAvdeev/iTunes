@@ -30,8 +30,8 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
 
 
     fun getResultListObservable(
-            loaderManager: LoaderManager,
-            iSearchActivity: ISearchActivity
+        loaderManager: LoaderManager,
+        iSearchActivity: ISearchActivity
     ): MutableLiveData<List<SearchResult>> {
 
         this.loaderManager = loaderManager
@@ -49,12 +49,13 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
     }
 
 
+    // LoaderCallbacks
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<SearchResult>> {
 
         return SearchResultLoader(
-                SearchQueryFormatter.getFormattedRequest(query),
-                mediaType,
-                this@SearchViewModel
+            SearchQueryFormatter.getFormattedRequest(query),
+            mediaType,
+            this@SearchViewModel
         )
     }
 
@@ -68,6 +69,8 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
     override fun onLoaderReset(loader: Loader<List<SearchResult>>) {
     }
 
+
+    // ErrorCallback
     override fun onError(message: String) {
 
         Handler(Looper.getMainLooper()).post {
