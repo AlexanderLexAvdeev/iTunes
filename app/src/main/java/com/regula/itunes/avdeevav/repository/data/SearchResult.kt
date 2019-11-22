@@ -9,8 +9,8 @@ open class SearchResult(
         var artistName: String? = "",
         var kind: String? = "",
         var formattedPrice: String? = null,
-        var trackPrice: Float? = null,
-        var price: Float? = null,
+        var trackPrice: Double? = null,
+        var price: Double? = null,
         var currency: String? = "",
         var favorite: Boolean? = false
 ) : RealmObject()
