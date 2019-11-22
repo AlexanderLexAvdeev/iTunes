@@ -229,7 +229,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         supportActionBar?.title = resources.getString(R.string.menuActionFavorites)
         favorites.get(object : FavoritesCallback {
             override fun onResult(favorites: List<SearchResult>) {
-                listAdapter.update(ArrayList(favorites))
+                listAdapter.update(favorites)
             }
 
         })
