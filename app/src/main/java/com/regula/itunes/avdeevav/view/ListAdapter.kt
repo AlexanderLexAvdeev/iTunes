@@ -13,7 +13,7 @@ import com.regula.itunes.avdeevav.repository.loader.ImageLoader
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 
 
-class ListAdapter : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
+class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
     private var list: List<SearchResult> = ArrayList()
 
@@ -46,11 +46,16 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun getList() = list
+
 
     inner class ListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(listItem: SearchResult) {
 
+            itemView.favorite.setOnClickListener {
+                iListAdapter.onFavoritesClick(listItem)
+            }
             ImageLoader.load(listItem.artworkUrl100 ?: "undefined", itemView.artwork)
             itemView.name.text = listItem.trackName
             itemView.author.text = listItem.artistName

@@ -21,11 +21,12 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 import com.regula.itunes.avdeevav.repository.LastSearchRequest
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.SearchMediaTypes
+import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.model.FavoritesViewModel
 import com.regula.itunes.avdeevav.repository.model.SearchViewModel
 
 
-class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialog {
+class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
 
     private var query: String = ""
     private var mediaTypeIndex: Int = 0
@@ -99,6 +100,16 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
         showToast(error)
     }
 
+    // IListAdapter
+    override fun onFavoritesClick(searchResult: SearchResult) {
+
+        if (searchResult.favorite == false) {
+            favoritesViewModel.addToFavorites(listAdapter, searchResult)
+        } else {
+            favoritesViewModel.removeFromFavorites(listAdapter, searchResult)
+        }
+    }
+
     // ISearchOptionsDialog
     override fun onMediaTypeSelected(mediaTypeIndex: Int) {
 
@@ -116,7 +127,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
 
     private fun initSearchResultList() {
 
-        listAdapter = ListAdapter()
+        listAdapter = ListAdapter(this@SearchActivity)
 
         list.layoutManager = LinearLayoutManager(this@SearchActivity, RecyclerView.VERTICAL, false)
         list.addItemDecoration(object : RecyclerView.ItemDecoration() {
