@@ -1,14 +1,12 @@
-package com.regula.itunes.avdeevav.repository.model
+package com.regula.itunes.avdeevav.repository
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-
-import com.regula.itunes.avdeevav.repository.data.SearchResult
-import com.regula.itunes.avdeevav.view.ListAdapter
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-class FavoritesViewModel : ViewModel() {
+import com.regula.itunes.avdeevav.repository.data.SearchResult
+import com.regula.itunes.avdeevav.view.ListAdapter
+
+class Favorites {
 
     companion object {
         private const val DATABASE_NAME = "favorites.realm"
@@ -18,8 +16,6 @@ class FavoritesViewModel : ViewModel() {
     private lateinit var realm: Realm
     private var realmConfig: RealmConfiguration
 
-    private var resultList: MutableLiveData<List<SearchResult>> = MutableLiveData()
-
     init {
         realmConfig = RealmConfiguration.Builder()
                 .name(DATABASE_NAME)
@@ -28,23 +24,23 @@ class FavoritesViewModel : ViewModel() {
     }
 
 
-    fun getFavoritesListObservable() = resultList
+    fun get(favoritesCallback: FavoritesCallback) {
 
-    fun getFavorites() {
+        var favorites: List<SearchResult> = ArrayList()
 
         realm = Realm.getInstance(realmConfig)
         realm.executeTransactionAsync(
                 { realm ->
-                    realm.where(SearchResult::class.java).findAll().toList()
+                    favorites = realm.where(SearchResult::class.java).findAll().toList()
                 },
                 {
-                    //
+                    favoritesCallback.onResult(favorites)
                 },
                 { }
         )
     }
 
-    fun addToFavorites(listAdapter: ListAdapter, searchResult: SearchResult) {
+    fun add(listAdapter: ListAdapter, searchResult: SearchResult) {
 
         var index: Int? = null
 
@@ -67,7 +63,7 @@ class FavoritesViewModel : ViewModel() {
         )
     }
 
-    fun removeFromFavorites(listAdapter: ListAdapter, searchResult: SearchResult) {
+    fun remove(listAdapter: ListAdapter, searchResult: SearchResult) {
 
         var index: Int? = null
 

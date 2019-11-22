@@ -18,12 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_search_in_itunes.*
 import kotlinx.android.synthetic.main.content_search_in_itunes.*
 
-import com.regula.itunes.avdeevav.repository.LastSearchRequest
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.SearchMediaTypes
+import com.regula.itunes.avdeevav.repository.*
 import com.regula.itunes.avdeevav.repository.data.SearchResult
-import com.regula.itunes.avdeevav.repository.model.FavoritesViewModel
-import com.regula.itunes.avdeevav.repository.SearchViewModel
 
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
@@ -36,9 +33,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     private val searchViewModel: SearchViewModel by lazy {
         ViewModelProviders.of(this@SearchActivity).get(SearchViewModel::class.java)
     }
-    private val favoritesViewModel: FavoritesViewModel by lazy {
-        ViewModelProviders.of(this@SearchActivity).get(FavoritesViewModel::class.java)
-    }
+    private val favorites = Favorites()
 
     private lateinit var searchItem: MenuItem
     private lateinit var searchView: SearchView
@@ -53,7 +48,6 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         initSwipeToRefresh()
         initSearchResultList()
         observeSearchViewModel()
-        observeFavoritesViewModel()
 
         if (savedInstanceState == null) {
             doRequest = true
@@ -104,9 +98,9 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     override fun onFavoritesClick(searchResult: SearchResult) {
 
         if (searchResult.favorite == false) {
-            favoritesViewModel.addToFavorites(listAdapter, searchResult)
+            favorites.add(listAdapter, searchResult)
         } else {
-            favoritesViewModel.removeFromFavorites(listAdapter, searchResult)
+            favorites.remove(listAdapter, searchResult)
         }
     }
 
@@ -161,20 +155,6 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
                 listAdapter.update(it)
             }
         })
-    }
-
-    private fun observeFavoritesViewModel() {
-
-        favoritesViewModel.getFavoritesListObservable()
-                .observe(this, Observer {
-                    it?.let {
-                        setViewUpdating(false)
-                        if (it.isEmpty()) {
-                            showToast(resources.getString(R.string.messageNothingToShow))
-                        }
-                        listAdapter.update(it)
-                    }
-                })
     }
 
     private fun initSearchView(menu: Menu) {
@@ -247,7 +227,12 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     private fun showFavorites(): Boolean {
 
         supportActionBar?.title = resources.getString(R.string.menuActionFavorites)
-        favoritesViewModel.getFavorites()
+        favorites.get(object : FavoritesCallback {
+            override fun onResult(favorites: List<SearchResult>) {
+                listAdapter.update(ArrayList(favorites))
+            }
+
+        })
 
         return true
     }
