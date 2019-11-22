@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository.model
+package com.regula.itunes.avdeevav.repository
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
-import com.regula.itunes.avdeevav.repository.SearchQueryFormatter
 
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.loader.ErrorCallback

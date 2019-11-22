@@ -23,7 +23,7 @@ import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.SearchMediaTypes
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.model.FavoritesViewModel
-import com.regula.itunes.avdeevav.repository.model.SearchViewModel
+import com.regula.itunes.avdeevav.repository.SearchViewModel
 
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
