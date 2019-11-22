@@ -96,7 +96,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
     override fun showError(error: String) {
 
         setViewUpdating(false)
-        Toast.makeText(this@SearchActivity, error, Toast.LENGTH_SHORT).show()
+        showToast(error)
     }
 
     // ISearchOptionsDialog
@@ -145,11 +145,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
             it?.let {
                 setViewUpdating(false)
                 if (it.isEmpty()) {
-                    Toast.makeText(
-                            this@SearchActivity,
-                            resources.getString(R.string.messageNothingFound),
-                            Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(resources.getString(R.string.messageNothingFound))
                 }
                 listAdapter.update(it)
             }
@@ -163,11 +159,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
                     it?.let {
                         setViewUpdating(false)
                         if (it.isEmpty()) {
-                            Toast.makeText(
-                                    this@SearchActivity,
-                                    resources.getString(R.string.messageNothingToShow),
-                                    Toast.LENGTH_SHORT
-                            ).show()
+                            showToast(resources.getString(R.string.messageNothingToShow))
                         }
                         listAdapter.update(it)
                     }
@@ -260,5 +252,10 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, ISearchOptionsDialo
                 .show(supportFragmentManager, SearchOptionsDialog.getTag())
 
         return true
+    }
+
+    private fun showToast(message: String) {
+
+        Toast.makeText(this@SearchActivity, message, Toast.LENGTH_SHORT).show()
     }
 }
