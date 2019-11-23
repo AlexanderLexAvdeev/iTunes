@@ -7,7 +7,7 @@ import retrofit2.Response
 import com.regula.itunes.avdeevav.App
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.Favorites
-import com.regula.itunes.avdeevav.repository.client.HttpClient
+import com.regula.itunes.avdeevav.repository.web.HttpClient
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.data.SearchResults
 
