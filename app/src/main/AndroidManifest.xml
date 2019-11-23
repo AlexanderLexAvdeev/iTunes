@@ -29,6 +29,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".view.favorite.FavoritesActivity"
+            android:label="@string/menuActionFavorites"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -54,7 +54,7 @@ class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAda
         fun bind(listItem: SearchResult) {
 
             itemView.favorite.setOnClickListener {
-                iListAdapter.onFavoritesClick(listItem)
+                iListAdapter.onFavoriteClick(listItem)
             }
             ImageLoader.load(listItem.artworkUrl100 ?: "undefined", itemView.artwork)
             itemView.name.text = listItem.trackName

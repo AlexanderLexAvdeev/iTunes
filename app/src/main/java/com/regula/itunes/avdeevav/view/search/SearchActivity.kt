@@ -1,5 +1,6 @@
 package com.regula.itunes.avdeevav.view.search
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.Menu
@@ -21,13 +22,12 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
-import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorageCallback
 import com.regula.itunes.avdeevav.repository.search.LastSearchRequest
 import com.regula.itunes.avdeevav.repository.search.SearchMediaTypes
 import com.regula.itunes.avdeevav.repository.search.SearchViewModel
+import com.regula.itunes.avdeevav.view.favorite.FavoritesActivity
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
-
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
 
@@ -64,8 +64,12 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
         menuInflater.inflate(R.menu.menu_itunes_activity, menu)
 
+        initLastSearchRequest()
         initSearchView(menu)
-        executeLastSearchRequest()
+
+        if (doRequest) {
+            search()
+        }
 
         return super.onCreateOptionsMenu(menu)
     }
@@ -101,7 +105,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     }
 
     // IListAdapter
-    override fun onFavoritesClick(searchResult: SearchResult) {
+    override fun onFavoriteClick(searchResult: SearchResult) {
 
         if (searchResult.favorite == false) {
             favorites.add(listAdapter, searchResult)
@@ -114,14 +118,14 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     override fun onMediaTypeSelected(mediaTypeIndex: Int) {
 
         this.mediaTypeIndex = mediaTypeIndex
-        searchInITunes()
+        search()
     }
 
 
     private fun initSwipeToRefresh() {
 
         swipeToRefresh.setOnRefreshListener {
-            searchInITunes()
+            search()
         }
     }
 
@@ -129,9 +133,18 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
         listAdapter = ListAdapter(this@SearchActivity)
 
-        list.layoutManager = LinearLayoutManager(this@SearchActivity, RecyclerView.VERTICAL, false)
+        list.layoutManager = LinearLayoutManager(
+                this@SearchActivity,
+                RecyclerView.VERTICAL,
+                false
+        )
         list.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+            ) {
                 if (parent.getChildAdapterPosition(view) == 0) {
                     outRect.top = resources.getDimensionPixelSize(R.dimen.listOffsetVertical)
                 } else {
@@ -152,15 +165,25 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         searchViewModel.getResultListObservable(
                 LoaderManager.getInstance(this@SearchActivity),
                 this@SearchActivity
-        ).observe(this, Observer {
-            it?.let {
+        ).observe(this, Observer { results ->
+            results?.let { list ->
                 setViewUpdating(false)
-                if (it.isEmpty()) {
+                if (list.isEmpty() && query.isNotEmpty()) {
                     showToast(resources.getString(R.string.messageNothingFound))
                 }
-                listAdapter.update(it)
+                listAdapter.update(list)
             }
         })
+    }
+
+    private fun initLastSearchRequest() {
+
+        query = LastSearchRequest.getQuery(this@SearchActivity)
+        mediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchActivity)
+
+        if (query.isEmpty()) {
+            doRequest = false
+        }
     }
 
     private fun initSearchView(menu: Menu) {
@@ -168,6 +191,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         searchItem = menu.findItem(R.id.actionSearch)
         searchView = searchItem.actionView as SearchView
 
+        searchView.queryHint = resources.getString(R.string.menuActionSearchInITunes)
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
 
@@ -184,7 +208,6 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
                 return true
             }
         })
-        searchView.queryHint = resources.getString(R.string.menuActionSearchInITunes)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
 
@@ -193,33 +216,18 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                this@SearchActivity.query = searchView.query.toString()
-                searchInITunes()
+                search()
 
                 return true
             }
 
         })
+        searchItem.expandActionView()
+        searchView.clearFocus()
     }
 
-    private fun executeLastSearchRequest() {
+    private fun search() {
 
-        initSearchOptions()
-
-        if (doRequest) {
-            searchInITunes()
-        }
-    }
-
-    private fun initSearchOptions() {
-
-        query = LastSearchRequest.getQuery(this@SearchActivity)
-        mediaTypeIndex = LastSearchRequest.getMediaTypeIndex(this@SearchActivity)
-    }
-
-    private fun searchInITunes() {
-
-        supportActionBar?.title = resources.getString(R.string.appName)
         if (searchItem.isActionViewExpanded) {
             query = searchView.query.toString()
         } else {
@@ -230,22 +238,14 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         searchViewModel.requestResult(query, SearchMediaTypes.values()[mediaTypeIndex].value)
     }
 
-    private fun showFavorites(): Boolean {
-
-        supportActionBar?.title = resources.getString(R.string.menuActionFavorites)
-        favorites.get(object : FavoritesStorageCallback {
-            override fun onResult(favorites: List<SearchResult>) {
-                listAdapter.update(favorites)
-            }
-
-        })
-
-        return true
-    }
-
     private fun setViewUpdating(updating: Boolean) {
 
         swipeToRefresh.isRefreshing = updating
+    }
+
+    private fun showToast(message: String) {
+
+        Toast.makeText(this@SearchActivity, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showSearchOptionsDialog(): Boolean {
@@ -256,8 +256,12 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         return true
     }
 
-    private fun showToast(message: String) {
+    private fun showFavorites(): Boolean {
 
-        Toast.makeText(this@SearchActivity, message, Toast.LENGTH_SHORT).show()
+        startActivity(
+                Intent(this@SearchActivity, FavoritesActivity::class.java)
+        )
+
+        return true
     }
 }
