@@ -4,12 +4,15 @@
     <!-- Connection -->
     <string name="connectionError">Connection error</string>
     <string name="noConnection">No connection</string>
-    <!-- SearchActivity -->
+    <!-- Activities -->
     <string name="menuActionSearchCriteria">Search options</string>
     <string name="menuActionSearchInITunes">Search in iTunes…</string>
     <string name="menuActionFavorites">Favorites</string>
     <string name="messageNothingFound">Nothing found</string>
     <string name="messageNothingToShow">Nothing to show</string>
-    <!-- SearchOptionsDialog -->
-    <string name="dialogTitle">Search in</string>
+    <!-- Dialog -->
+    <string name="title">Search in</string>
+    <!-- SnackBar -->
+    <string name="action">YES</string>
+    <string name="text">Remove from favorites?</string>
 </resources>

@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+import com.google.android.material.snackbar.Snackbar
+
 import kotlinx.android.synthetic.main.activity_favorites.*
+import kotlinx.android.synthetic.main.content_favorites.*
 
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
@@ -20,7 +23,6 @@ import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
 import com.regula.itunes.avdeevav.view.search.SearchActivity
-import kotlinx.android.synthetic.main.content_favorites.*
 
 class FavoritesActivity : AppCompatActivity(), IListAdapter {
 
@@ -61,8 +63,12 @@ class FavoritesActivity : AppCompatActivity(), IListAdapter {
     // IListAdapter
     override fun onFavoriteClick(searchResult: SearchResult) {
 
-        favorites.remove(listAdapter, searchResult)
-        favoritesChanged = true
+        Snackbar
+                .make(activity, R.string.text, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.action) {
+                    favorites.remove(listAdapter, searchResult)
+                    favoritesChanged = true
+                }.show()
     }
 
 

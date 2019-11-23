@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.loader.app.LoaderManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
@@ -129,7 +130,11 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
         if (searchResult.favorite == false) {
             favorites.add(listAdapter, searchResult)
         } else {
-            favorites.remove(listAdapter, searchResult)
+            Snackbar
+                    .make(activity, R.string.text, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action) {
+                        favorites.remove(listAdapter, searchResult)
+                    }.show()
         }
     }
 

@@ -60,7 +60,7 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         val alertDialogBuilder = AlertDialog.Builder(context!!)
 
-        alertDialogBuilder.setTitle(R.string.dialogTitle)
+        alertDialogBuilder.setTitle(R.string.title)
         alertDialogBuilder.setSingleChoiceItems(
             Array(SearchMediaTypes.values().size) {
                 SearchMediaTypes.values()[it].mediaType
