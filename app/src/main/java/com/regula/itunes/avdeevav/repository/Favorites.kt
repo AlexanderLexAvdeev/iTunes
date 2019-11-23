@@ -42,6 +42,19 @@ class Favorites {
         )
     }
 
+    fun setFavorites(searchResults: List<SearchResult>) {
+
+        for (searchResult in searchResults) {
+            val realmResults: RealmResults<Favorite> = realm
+                    .where(Favorite::class.java)
+                    .equalTo("trackId", searchResult.trackId)
+                    .findAll()
+            if (realmResults.isNotEmpty()) {
+                searchResult.favorite = true
+            }
+        }
+    }
+
     fun add(listAdapter: ListAdapter, searchResult: SearchResult) {
 
         var index: Int? = null
