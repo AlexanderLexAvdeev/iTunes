@@ -1,6 +1,5 @@
-package com.regula.itunes.avdeevav.repository
+package com.regula.itunes.avdeevav.repository.favorite
 
-import com.regula.itunes.avdeevav.repository.data.Favorite
 import io.realm.Realm
 import io.realm.RealmConfiguration
 

@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository.data
+package com.regula.itunes.avdeevav.repository.favorite
 
 import io.realm.RealmObject
 
