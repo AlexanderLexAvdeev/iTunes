@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository
+package com.regula.itunes.avdeevav.repository.search
 
 import android.os.Bundle
 import android.os.Handler
@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
 
-import com.regula.itunes.avdeevav.repository.data.SearchResult
-import com.regula.itunes.avdeevav.repository.loader.ErrorCallback
-import com.regula.itunes.avdeevav.repository.loader.SearchResultLoader
+import com.regula.itunes.avdeevav.repository.search.data.SearchResult
+import com.regula.itunes.avdeevav.repository.search.loader.ErrorCallback
+import com.regula.itunes.avdeevav.repository.search.loader.SearchResultLoader
 import com.regula.itunes.avdeevav.view.search.ISearchActivity
 
 
@@ -53,9 +53,9 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<SearchResult>> {
 
         return SearchResultLoader(
-            SearchQueryFormatter.getFormattedRequest(query),
-            mediaType,
-            this@SearchViewModel
+                SearchQueryFormatter.getFormattedRequest(query),
+                mediaType,
+                this@SearchViewModel
         )
     }
 

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.SearchMediaTypes
+import com.regula.itunes.avdeevav.repository.search.SearchMediaTypes
 
 class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 

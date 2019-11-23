@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository.data
+package com.regula.itunes.avdeevav.repository.search.data
 
 data class SearchResults(
         var resultCount: Int? = 0,

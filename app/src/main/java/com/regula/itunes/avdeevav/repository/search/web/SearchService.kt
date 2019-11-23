@@ -1,10 +1,10 @@
-package com.regula.itunes.avdeevav.repository.web
+package com.regula.itunes.avdeevav.repository.search.web
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-import com.regula.itunes.avdeevav.repository.data.SearchResults
+import com.regula.itunes.avdeevav.repository.search.data.SearchResults
 
 interface SearchService {
 

@@ -19,10 +19,12 @@ import kotlinx.android.synthetic.main.activity_search_in_itunes.*
 import kotlinx.android.synthetic.main.content_search_in_itunes.*
 
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.*
-import com.regula.itunes.avdeevav.repository.data.SearchResult
+import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorageCallback
+import com.regula.itunes.avdeevav.repository.search.LastSearchRequest
+import com.regula.itunes.avdeevav.repository.search.SearchMediaTypes
+import com.regula.itunes.avdeevav.repository.search.SearchViewModel
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
 

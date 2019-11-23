@@ -1,6 +1,6 @@
 package com.regula.itunes.avdeevav.view
 
-import com.regula.itunes.avdeevav.repository.data.SearchResult
+import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 
 interface IListAdapter {
 

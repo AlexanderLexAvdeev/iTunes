@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository
+package com.regula.itunes.avdeevav.repository.search
 
 import android.content.Context
 
@@ -15,8 +15,8 @@ object LastSearchRequest {
         return context
                 .getSharedPreferences(LAST_SEARCH_REQUEST, Context.MODE_PRIVATE)
                 .getString(
-                    QUERY,
-                    DEFAULT_STRING
+                        QUERY,
+                        DEFAULT_STRING
                 )
                 ?: DEFAULT_STRING
     }
@@ -35,8 +35,8 @@ object LastSearchRequest {
         return context
                 .getSharedPreferences(LAST_SEARCH_REQUEST, Context.MODE_PRIVATE)
                 .getInt(
-                    MEDIA_TYPE_INDEX,
-                    DEFAULT_NUMBER
+                        MEDIA_TYPE_INDEX,
+                        DEFAULT_NUMBER
                 )
     }
 

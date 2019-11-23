@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository.loader
+package com.regula.itunes.avdeevav.repository.search.loader
 
 import androidx.loader.content.AsyncTaskLoader
 
@@ -7,9 +7,9 @@ import retrofit2.Response
 import com.regula.itunes.avdeevav.App
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
-import com.regula.itunes.avdeevav.repository.web.HttpClient
-import com.regula.itunes.avdeevav.repository.data.SearchResult
-import com.regula.itunes.avdeevav.repository.data.SearchResults
+import com.regula.itunes.avdeevav.repository.search.web.HttpClient
+import com.regula.itunes.avdeevav.repository.search.data.SearchResult
+import com.regula.itunes.avdeevav.repository.search.data.SearchResults
 
 class SearchResultLoader(
         private val searchRequest: String,

@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository.loader
+package com.regula.itunes.avdeevav.repository.search.loader
 
 interface ErrorCallback {
 

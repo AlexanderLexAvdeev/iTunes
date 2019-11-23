@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.itunes_list_item.view.*
 
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.loader.ImageLoader
-import com.regula.itunes.avdeevav.repository.data.SearchResult
+import com.regula.itunes.avdeevav.repository.search.loader.ImageLoader
+import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 
 
 class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {

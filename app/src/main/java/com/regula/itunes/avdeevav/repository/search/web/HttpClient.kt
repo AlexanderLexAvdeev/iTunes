@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.repository.web
+package com.regula.itunes.avdeevav.repository.search.web
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
