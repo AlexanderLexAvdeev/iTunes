@@ -30,6 +30,7 @@ import com.regula.itunes.avdeevav.repository.search.SearchViewModel
 import com.regula.itunes.avdeevav.view.favorite.FavoritesActivity
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
+import com.regula.itunes.avdeevav.PlaySound
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
 
@@ -133,6 +134,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
             Snackbar
                     .make(activity, R.string.text, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action) {
+                        PlaySound.remove()
                         favorites.remove(listAdapter, searchResult, false)
                     }.show()
         }

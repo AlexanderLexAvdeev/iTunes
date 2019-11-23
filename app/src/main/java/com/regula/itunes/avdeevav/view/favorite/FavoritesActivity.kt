@@ -22,6 +22,7 @@ import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorageCallback
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
+import com.regula.itunes.avdeevav.PlaySound
 import com.regula.itunes.avdeevav.view.search.SearchActivity
 
 class FavoritesActivity : AppCompatActivity(), IListAdapter {
@@ -66,6 +67,7 @@ class FavoritesActivity : AppCompatActivity(), IListAdapter {
         Snackbar
                 .make(activity, R.string.text, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action) {
+                    PlaySound.delete()
                     favorites.remove(listAdapter, searchResult, true)
                     favoritesChanged = true
                 }.show()
