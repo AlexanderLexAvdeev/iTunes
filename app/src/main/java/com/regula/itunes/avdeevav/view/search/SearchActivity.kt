@@ -1,5 +1,6 @@
 package com.regula.itunes.avdeevav.view.search
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -30,6 +31,11 @@ import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
+
+    companion object {
+        private const val REQUEST_UPDATE_LIST = 1
+        const val UPDATE_LIST = "updateList"
+    }
 
     private var query: String = ""
     private var mediaTypeIndex: Int = 0
@@ -93,6 +99,19 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
             R.id.actionFavorites -> showFavorites()
             R.id.actionSearchOptions -> showSearchOptionsDialog()
             else -> false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, intent)
+
+        if (requestCode == REQUEST_UPDATE_LIST && resultCode == Activity.RESULT_OK) {
+            intent?.let {
+                if (it.getBooleanExtra(UPDATE_LIST, false)) {
+                    search()
+                }
+            }
         }
     }
 
@@ -258,8 +277,9 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
     private fun showFavorites(): Boolean {
 
-        startActivity(
-                Intent(this@SearchActivity, FavoritesActivity::class.java)
+        startActivityForResult(
+                Intent(this@SearchActivity, FavoritesActivity::class.java),
+                REQUEST_UPDATE_LIST
         )
 
         return true

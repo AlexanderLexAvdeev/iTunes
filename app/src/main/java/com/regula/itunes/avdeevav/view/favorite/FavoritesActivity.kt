@@ -1,5 +1,7 @@
 package com.regula.itunes.avdeevav.view.favorite
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -17,12 +19,15 @@ import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorageCallback
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
+import com.regula.itunes.avdeevav.view.search.SearchActivity
 import kotlinx.android.synthetic.main.content_favorites.*
 
 class FavoritesActivity : AppCompatActivity(), IListAdapter {
 
     private lateinit var listAdapter: ListAdapter
     private val favorites = FavoritesStorage()
+
+    private var favoritesChanged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,20 +43,26 @@ class FavoritesActivity : AppCompatActivity(), IListAdapter {
 
     override fun onSupportNavigateUp(): Boolean {
 
-        finish()
+        onBackPressed()
 
         return true
+    }
+
+    override fun onBackPressed() {
+
+        setResult(
+                Activity.RESULT_OK,
+                Intent().putExtra(SearchActivity.UPDATE_LIST, favoritesChanged)
+        )
+        finish()
     }
 
 
     // IListAdapter
     override fun onFavoriteClick(searchResult: SearchResult) {
 
-        if (searchResult.favorite == false) {
-            favorites.add(listAdapter, searchResult)
-        } else {
-            favorites.remove(listAdapter, searchResult)
-        }
+        favorites.remove(listAdapter, searchResult)
+        favoritesChanged = true
     }
 
 
