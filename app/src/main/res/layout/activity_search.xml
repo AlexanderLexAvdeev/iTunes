@@ -21,6 +21,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_search_in_itunes" />
+    <include layout="@layout/content_search" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

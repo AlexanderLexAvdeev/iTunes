@@ -16,8 +16,8 @@ import androidx.loader.app.LoaderManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-import kotlinx.android.synthetic.main.activity_search_in_itunes.*
-import kotlinx.android.synthetic.main.content_search_in_itunes.*
+import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.content_search.*
 
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
@@ -49,7 +49,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_search_in_itunes)
+        setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
         initSwipeToRefresh()
         initSearchResultList()

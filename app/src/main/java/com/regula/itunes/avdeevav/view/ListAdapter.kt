@@ -6,7 +6,7 @@ import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
 
-import kotlinx.android.synthetic.main.itunes_list_item.view.*
+import kotlinx.android.synthetic.main.list_item.view.*
 
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.search.loader.ImageLoader
@@ -25,7 +25,7 @@ class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAda
 
         return ListItemViewHolder(
                 LayoutInflater.from(parent.context)
-                        .inflate(R.layout.itunes_list_item, parent, false)
+                        .inflate(R.layout.list_item, parent, false)
         )
     }
 
