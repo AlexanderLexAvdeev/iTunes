@@ -66,7 +66,7 @@ class FavoritesActivity : AppCompatActivity(), IListAdapter {
         Snackbar
                 .make(activity, R.string.text, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action) {
-                    favorites.remove(listAdapter, searchResult)
+                    favorites.remove(listAdapter, searchResult, true)
                     favoritesChanged = true
                 }.show()
     }

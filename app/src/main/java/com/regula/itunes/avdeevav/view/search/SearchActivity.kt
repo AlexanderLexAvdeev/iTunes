@@ -133,7 +133,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
             Snackbar
                     .make(activity, R.string.text, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action) {
-                        favorites.remove(listAdapter, searchResult)
+                        favorites.remove(listAdapter, searchResult, false)
                     }.show()
         }
     }

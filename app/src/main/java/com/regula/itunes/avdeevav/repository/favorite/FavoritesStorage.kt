@@ -84,9 +84,9 @@ class FavoritesStorage {
         )
     }
 
-    fun remove(listAdapter: ListAdapter, searchResult: SearchResult) {
+    fun remove(listAdapter: ListAdapter, searchResult: SearchResult, removeFromList: Boolean) {
 
-        var index: Int? = null
+        var position: Int? = null
 
         realm = Realm.getInstance(realmConfig)
         realm.executeTransactionAsync(
@@ -97,12 +97,21 @@ class FavoritesStorage {
                             .findAll()
                             .deleteAllFromRealm()
 
-                    index = listAdapter.getList().indexOf(searchResult)
+                    position = listAdapter.getList().indexOf(searchResult)
                 },
                 {
-                    index?.let { index: Int ->
-                        listAdapter.getList()[index].favorite = false
-                        listAdapter.notifyItemChanged(index)
+                    position?.let { position: Int ->
+                        if (removeFromList) {
+                            (listAdapter.getList() as ArrayList).removeAt(position)
+                            if (position == 0) {
+                                listAdapter.notifyDataSetChanged()
+                            } else {
+                                listAdapter.notifyItemRemoved(position)
+                            }
+                        } else {
+                            listAdapter.getList()[position].favorite = false
+                            listAdapter.notifyItemChanged(position)
+                        }
                     }
                 },
                 {
