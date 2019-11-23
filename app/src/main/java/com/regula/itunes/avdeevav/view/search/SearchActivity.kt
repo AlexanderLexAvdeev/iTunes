@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.*
 import com.regula.itunes.avdeevav.repository.data.SearchResult
-import com.regula.itunes.avdeevav.repository.favorite.Favorites
-import com.regula.itunes.avdeevav.repository.favorite.FavoritesCallback
+import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
+import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorageCallback
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
 
@@ -37,7 +37,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     private val searchViewModel: SearchViewModel by lazy {
         ViewModelProviders.of(this@SearchActivity).get(SearchViewModel::class.java)
     }
-    private val favorites = Favorites()
+    private val favorites = FavoritesStorage()
 
     private lateinit var searchItem: MenuItem
     private lateinit var searchView: SearchView
@@ -231,7 +231,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
     private fun showFavorites(): Boolean {
 
         supportActionBar?.title = resources.getString(R.string.menuActionFavorites)
-        favorites.get(object : FavoritesCallback {
+        favorites.get(object : FavoritesStorageCallback {
             override fun onResult(favorites: List<SearchResult>) {
                 listAdapter.update(favorites)
             }

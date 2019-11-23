@@ -6,7 +6,7 @@ import retrofit2.Response
 
 import com.regula.itunes.avdeevav.App
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.favorite.Favorites
+import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
 import com.regula.itunes.avdeevav.repository.web.HttpClient
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.data.SearchResults
@@ -38,7 +38,7 @@ class SearchResultLoader(
 
         response?.let { resp: Response<SearchResults> ->
             return if (resp.isSuccessful) {
-                val favorites = Favorites()
+                val favorites = FavoritesStorage()
                 val searchResults: ArrayList<SearchResult>? = resp.body()?.results
 
                 searchResults?.let { results: ArrayList<SearchResult> ->

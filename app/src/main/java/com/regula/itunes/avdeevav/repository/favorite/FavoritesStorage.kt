@@ -7,7 +7,7 @@ import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.view.ListAdapter
 import io.realm.RealmResults
 
-class Favorites {
+class FavoritesStorage {
 
     companion object {
         private const val DATABASE_NAME = "favorites.realm"
@@ -25,7 +25,7 @@ class Favorites {
     }
 
 
-    fun get(favoritesCallback: FavoritesCallback) {
+    fun get(favoritesStorageCallback: FavoritesStorageCallback) {
 
         var favorites: List<SearchResult> = ArrayList()
 
@@ -35,7 +35,7 @@ class Favorites {
                     favorites = realm.where(Favorite::class.java).findAll().toList()
                 },
                 {
-                    favoritesCallback.onResult(favorites)
+                    favoritesStorageCallback.onResult(favorites)
                 },
                 { }
         )
