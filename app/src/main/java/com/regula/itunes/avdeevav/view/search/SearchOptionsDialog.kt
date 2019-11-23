@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.view
+package com.regula.itunes.avdeevav.view.search
 
 import android.app.Dialog
 import android.content.Context
@@ -21,7 +21,7 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         fun getInstance(fragmentManager: FragmentManager, mediaTypeIndex: Int): SearchOptionsDialog {
 
             var searchOptionsDialog: SearchOptionsDialog? = fragmentManager.findFragmentByTag(
-                TAG
+                    TAG
             ) as SearchOptionsDialog?
 
             if (searchOptionsDialog == null) {

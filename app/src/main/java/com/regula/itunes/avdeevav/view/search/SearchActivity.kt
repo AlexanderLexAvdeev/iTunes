@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav.view
+package com.regula.itunes.avdeevav.view.search
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.content_search_in_itunes.*
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.*
 import com.regula.itunes.avdeevav.repository.data.SearchResult
+import com.regula.itunes.avdeevav.view.IListAdapter
+import com.regula.itunes.avdeevav.view.ListAdapter
 
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {

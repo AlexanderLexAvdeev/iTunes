@@ -12,7 +12,7 @@ import androidx.loader.content.Loader
 import com.regula.itunes.avdeevav.repository.data.SearchResult
 import com.regula.itunes.avdeevav.repository.loader.ErrorCallback
 import com.regula.itunes.avdeevav.repository.loader.SearchResultLoader
-import com.regula.itunes.avdeevav.view.ISearchActivity
+import com.regula.itunes.avdeevav.view.search.ISearchActivity
 
 
 class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchResult>>, ErrorCallback {

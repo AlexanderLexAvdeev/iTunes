@@ -20,7 +20,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".view.SearchActivity"
+            android:name=".view.search.SearchActivity"
             android:label="@string/appName"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
