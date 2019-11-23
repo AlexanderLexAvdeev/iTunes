@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/iTunesItem"
     android:layout_width="match_parent"
-    android:layout_height="96dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginBottom="4dp"
+    android:layout_height="@dimen/listItemHeight"
+    android:layout_marginLeft="@dimen/listItemHorizontalMargin"
+    android:layout_marginTop="@dimen/listItemVerticalMargin"
+    android:layout_marginRight="@dimen/listItemHorizontalMargin"
+    android:layout_marginBottom="@dimen/listItemVerticalMargin"
     android:foreground="?android:attr/selectableItemBackground">
 
     <RelativeLayout
@@ -16,10 +16,9 @@
 
         <ImageView
             android:id="@+id/artwork"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="@dimen/listItemHeight"
+            android:layout_height="@dimen/listItemHeight"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="0dp"
             android:scaleType="centerInside"
             tools:ignore="ContentDescription,RtlHardcoded" />
 
@@ -27,12 +26,12 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/listItemInnerMargin"
             android:layout_toLeftOf="@id/favorite"
             android:layout_toRightOf="@id/artwork"
             android:ellipsize="end"
             android:lines="1"
-            android:paddingLeft="4dp"
+            android:paddingLeft="@dimen/listItemInnerPadding"
             android:textStyle="bold"
             tools:ignore="RtlHardcoded,RtlSymmetry"
             tools:text="Name" />
@@ -42,12 +41,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/name"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/listItemVerticalMargin"
             android:layout_toLeftOf="@id/favorite"
             android:layout_toRightOf="@id/artwork"
             android:ellipsize="end"
             android:lines="1"
-            android:paddingLeft="4dp"
+            android:paddingLeft="@dimen/listItemInnerPadding"
             android:textStyle="normal"
             tools:ignore="RtlHardcoded,RtlSymmetry"
             tools:text="Author" />
@@ -57,21 +56,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/author"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/listItemVerticalMargin"
             android:layout_toLeftOf="@id/price"
             android:layout_toRightOf="@id/artwork"
             android:ellipsize="end"
             android:lines="1"
-            android:paddingLeft="4dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="@dimen/listItemInnerPadding"
             android:textStyle="italic"
             tools:ignore="RtlHardcoded,RtlSymmetry"
             tools:text="Media" />
 
         <ImageButton
             android:id="@+id/favorite"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/listItemFavoriteButtonSize"
+            android:layout_height="@dimen/listItemFavoriteButtonSize"
             android:layout_alignParentRight="true"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
@@ -84,8 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="@dimen/listItemInnerMargin"
+            android:layout_marginRight="@dimen/listItemInnerMargin"
+            android:layout_marginBottom="@dimen/listItemInnerMargin"
             android:textStyle="bold|italic"
             tools:ignore="RtlHardcoded,RtlSymmetry"
             tools:text="Price" />

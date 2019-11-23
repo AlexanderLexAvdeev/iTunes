@@ -1,7 +1,12 @@
 <resources>
-    <!-- app -->
-    <dimen name="edgeMargin">16dp</dimen>
-    <!-- SearchInITunesActivity -->
+    <!-- Activity -->
     <dimen name="listOffsetVertical">12dp</dimen>
     <dimen name="toolBarHeight">56dp</dimen>
+    <!-- List item -->
+    <dimen name="listItemFavoriteButtonSize">40dp</dimen>
+    <dimen name="listItemHeight">96dp</dimen>
+    <dimen name="listItemHorizontalMargin">16dp</dimen>
+    <dimen name="listItemInnerMargin">8dp</dimen>
+    <dimen name="listItemInnerPadding">4dp</dimen>
+    <dimen name="listItemVerticalMargin">4dp</dimen>
 </resources>
