@@ -45,6 +45,7 @@ class Favorites {
     fun setFavorites(searchResults: List<SearchResult>) {
 
         for (searchResult in searchResults) {
+            realm = Realm.getInstance(realmConfig)
             val realmResults: RealmResults<Favorite> = realm
                     .where(Favorite::class.java)
                     .equalTo("trackId", searchResult.trackId)
