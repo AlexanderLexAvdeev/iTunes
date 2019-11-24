@@ -1,4 +1,4 @@
-package com.regula.itunes.avdeevav
+package com.regula.itunes.avdeevav.media
 
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
