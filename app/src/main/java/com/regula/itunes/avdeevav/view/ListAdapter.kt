@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
+import com.regula.itunes.avdeevav.ImageConverter
 
 import kotlinx.android.synthetic.main.list_item.view.*
 
@@ -12,8 +13,8 @@ import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.search.loader.ImageLoader
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 
-
-class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
+class ListAdapter(val iListAdapter: IListAdapter, val favoritesList: Boolean)
+    : RecyclerView.Adapter<ListAdapter.ListItemViewHolder>() {
 
     private var list: List<SearchResult> = ArrayList()
 
@@ -53,10 +54,11 @@ class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAda
 
         fun bind(listItem: SearchResult) {
 
-            itemView.favorite.setOnClickListener {
-                iListAdapter.onFavoriteClick(listItem)
+            if (favoritesList) {
+                itemView.artwork.setImageBitmap(ImageConverter.getBitmap(listItem.artworkImage))
+            } else {
+                ImageLoader.load(listItem.artworkUrl100 ?: "undefined", itemView.artwork)
             }
-            ImageLoader.load(listItem.artworkUrl100 ?: "undefined", itemView.artwork)
             itemView.name.text = listItem.trackName
             itemView.author.text = listItem.artistName
             itemView.media.text = listItem.kind
@@ -67,6 +69,12 @@ class ListAdapter(val iListAdapter: IListAdapter) : RecyclerView.Adapter<ListAda
                         R.drawable.ic_not_favorite
                     }
             )
+            itemView.favorite.setOnClickListener {
+                if (listItem.favorite == false) {
+                    listItem.artworkImage = ImageConverter.getGrayScaleString(itemView.artwork)
+                }
+                iListAdapter.onFavoriteClick(listItem)
+            }
             itemView.price.text =
                     if (listItem.formattedPrice == null) {
                         if (listItem.trackPrice == null) {

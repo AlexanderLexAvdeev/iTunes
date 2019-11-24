@@ -3,6 +3,7 @@ package com.regula.itunes.avdeevav.repository.search.data
 data class SearchResult(
         var trackId: Long? = -1,
         var artworkUrl100: String? = "",
+        var artworkImage: String? = null,
         var trackName: String? = "",
         var artistName: String? = "",
         var kind: String? = "",

@@ -125,11 +125,12 @@ class FavoritesStorage {
 
         val dataList = ArrayList<SearchResult>()
 
-        for (realmResult in this) {
+        for (realmResult: Favorite in this) {
             dataList.add(
                     SearchResult(
                             realmResult.trackId,
                             realmResult.artworkUrl100,
+                            realmResult.artworkImage,
                             realmResult.trackName,
                             realmResult.artistName,
                             realmResult.kind,
@@ -150,6 +151,7 @@ class FavoritesStorage {
         return Favorite(
                 this.trackId,
                 this.artworkUrl100,
+                this.artworkImage,
                 this.trackName,
                 this.artistName,
                 this.kind,

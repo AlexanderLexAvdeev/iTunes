@@ -157,7 +157,7 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
     private fun initSearchResultList() {
 
-        listAdapter = ListAdapter(this@SearchActivity)
+        listAdapter = ListAdapter(this@SearchActivity, false)
 
         list.layoutManager = LinearLayoutManager(
                 this@SearchActivity,

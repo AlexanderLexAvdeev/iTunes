@@ -76,7 +76,7 @@ class FavoritesActivity : AppCompatActivity(), IListAdapter {
 
     private fun initFavoritesList() {
 
-        listAdapter = ListAdapter(this@FavoritesActivity)
+        listAdapter = ListAdapter(this@FavoritesActivity, true)
 
         list.layoutManager = LinearLayoutManager(this@FavoritesActivity, RecyclerView.VERTICAL, false)
         list.addItemDecoration(object : RecyclerView.ItemDecoration() {
