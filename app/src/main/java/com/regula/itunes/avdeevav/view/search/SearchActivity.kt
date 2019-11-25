@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.loader.app.LoaderManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -188,18 +187,16 @@ class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISear
 
     private fun observeSearchViewModel() {
 
-        searchViewModel.getResultListObservable(
-                LoaderManager.getInstance(this@SearchActivity),
-                this@SearchActivity
-        ).observe(this, Observer { results ->
-            results?.let { list ->
-                setViewUpdating(false)
-                if (list.isEmpty() && query.isNotEmpty()) {
-                    showToast(resources.getString(R.string.messageNothingFound))
-                }
-                listAdapter.update(list)
-            }
-        })
+        searchViewModel.getResultListObservable(this@SearchActivity)
+                .observe(this, Observer { results ->
+                    results?.let { list ->
+                        setViewUpdating(false)
+                        if (list.isEmpty() && query.isNotEmpty()) {
+                            showToast(resources.getString(R.string.messageNothingFound))
+                        }
+                        listAdapter.update(list)
+                    }
+                })
     }
 
     private fun initLastSearchRequest() {

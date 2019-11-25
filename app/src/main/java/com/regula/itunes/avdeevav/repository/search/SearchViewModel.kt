@@ -1,40 +1,24 @@
 package com.regula.itunes.avdeevav.repository.search
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.Loader
 
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
-import com.regula.itunes.avdeevav.repository.search.loader.ErrorCallback
 import com.regula.itunes.avdeevav.repository.search.loader.SearchResultLoader
+import com.regula.itunes.avdeevav.repository.search.loader.SearchResultLoaderCallback
 import com.regula.itunes.avdeevav.view.search.ISearchActivity
 
-
-class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchResult>>, ErrorCallback {
-
-    private companion object {
-        const val SEARCH_RESULT_LOADER = 1
-    }
+class SearchViewModel : ViewModel(), SearchResultLoaderCallback {
 
     private lateinit var query: String
     private lateinit var mediaType: String
 
-    private lateinit var loaderManager: LoaderManager
     private lateinit var iSearchActivity: ISearchActivity
     private var resultList: MutableLiveData<List<SearchResult>> = MutableLiveData()
 
 
-    fun getResultListObservable(
-        loaderManager: LoaderManager,
-        iSearchActivity: ISearchActivity
-    ): MutableLiveData<List<SearchResult>> {
+    fun getResultListObservable(iSearchActivity: ISearchActivity): MutableLiveData<List<SearchResult>> {
 
-        this.loaderManager = loaderManager
         this.iSearchActivity = iSearchActivity
 
         return resultList
@@ -45,36 +29,23 @@ class SearchViewModel : ViewModel(), LoaderManager.LoaderCallbacks<List<SearchRe
         this.query = query
         this.mediaType = mediaType
 
-        loaderManager.restartLoader(SEARCH_RESULT_LOADER, null, this@SearchViewModel)
-    }
-
-
-    // LoaderCallbacks
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<SearchResult>> {
-
-        return SearchResultLoader(
+        SearchResultLoader(
                 SearchQueryFormatter.getFormattedRequest(query),
                 mediaType,
                 this@SearchViewModel
-        )
-    }
-
-    override fun onLoadFinished(loader: Loader<List<SearchResult>>, data: List<SearchResult>?) {
-
-        when (loader.id) {
-            SEARCH_RESULT_LOADER -> resultList.value = data
-        }
-    }
-
-    override fun onLoaderReset(loader: Loader<List<SearchResult>>) {
+        ).start()
     }
 
 
-    // ErrorCallback
+    // SearchResultLoaderCallback
+
+    override fun onResult(searchResults: List<SearchResult>?) {
+
+        resultList.value = searchResults
+    }
+
     override fun onError(message: String) {
 
-        Handler(Looper.getMainLooper()).post {
-            iSearchActivity.showError(message)
-        }
+        iSearchActivity.showError(message)
     }
 }

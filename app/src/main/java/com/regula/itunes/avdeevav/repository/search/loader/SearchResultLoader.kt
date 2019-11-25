@@ -1,7 +1,7 @@
 package com.regula.itunes.avdeevav.repository.search.loader
 
-import androidx.loader.content.AsyncTaskLoader
-
+import android.os.Handler
+import android.os.Looper
 import retrofit2.Response
 
 import com.regula.itunes.avdeevav.App
@@ -14,45 +14,42 @@ import com.regula.itunes.avdeevav.repository.search.data.SearchResults
 class SearchResultLoader(
         private val searchRequest: String,
         private val mediaType: String,
-        private val errorCallback: ErrorCallback
-) : AsyncTaskLoader<List<SearchResult>>(App.getContext()) {
+        private val searchResultLoaderCallback: SearchResultLoaderCallback
+) : Thread() {
 
-    override fun onStartLoading() {
-
-        super.onStartLoading()
-
-        forceLoad()
-    }
-
-    override fun loadInBackground(): List<SearchResult>? {
+    override fun run() {
 
         val response: Response<SearchResults>?
 
         try {
             response = HttpClient.getSearchService().getResult(searchRequest, mediaType).execute()
         } catch (e: Exception) {
-            errorCallback.onError(context.resources.getString(R.string.noConnection))
+            Handler(Looper.getMainLooper()).post {
+                searchResultLoaderCallback.onError(App.getContext().resources.getString(R.string.noConnection))
+            }
 
-            return null
+            return
         }
 
         response?.let { resp: Response<SearchResults> ->
-            return if (resp.isSuccessful) {
+            if (resp.isSuccessful) {
                 val favorites = FavoritesStorage()
-                val searchResults: ArrayList<SearchResult>? = resp.body()?.results
+                val searchResults: List<SearchResult>? = resp.body()?.results
 
-                searchResults?.let { results: ArrayList<SearchResult> ->
+                searchResults?.let { results: List<SearchResult> ->
                     favorites.setFavorites(results)
                 }
 
-                return searchResults
+                Handler(Looper.getMainLooper()).post {
+                    searchResultLoaderCallback.onResult(searchResults)
+                }
             } else {
-                errorCallback.onError(
-                        "%s %s".format(context.resources.getString(R.string.connectionError), response.code())
-                )
-
-                null
+                Handler(Looper.getMainLooper()).post {
+                    searchResultLoaderCallback.onError(
+                            "%s %s".format(App.getContext().resources.getString(R.string.connectionError), response.code())
+                    )
+                }
             }
-        } ?: return null
+        }
     }
 }
