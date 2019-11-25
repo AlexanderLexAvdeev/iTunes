@@ -19,7 +19,8 @@
             android:layout_width="@dimen/listItemHeight"
             android:layout_height="@dimen/listItemHeight"
             android:layout_centerVertical="true"
-            android:scaleType="centerInside"
+            android:antialias="true"
+            android:scaleType="fitCenter"
             tools:ignore="ContentDescription,RtlHardcoded" />
 
         <TextView

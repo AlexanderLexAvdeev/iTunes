@@ -12,7 +12,7 @@ android {
         applicationId "com.regula.itunes.avdeevav"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 20191118
+        versionCode 20191125
         versionName "1.0"
     }
     buildTypes {
