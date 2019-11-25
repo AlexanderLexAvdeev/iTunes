@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
-import com.regula.itunes.avdeevav.media.ImageConverter
 
 import kotlinx.android.synthetic.main.list_item.view.*
 
+import com.regula.itunes.avdeevav.media.ImageConverter
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.search.loader.ImageLoader
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult

@@ -2,6 +2,7 @@ package com.regula.itunes.avdeevav.repository.search.loader
 
 import android.os.Handler
 import android.os.Looper
+
 import retrofit2.Response
 
 import com.regula.itunes.avdeevav.App

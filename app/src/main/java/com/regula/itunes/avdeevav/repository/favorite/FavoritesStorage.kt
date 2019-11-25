@@ -2,10 +2,10 @@ package com.regula.itunes.avdeevav.repository.favorite
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.RealmResults
 
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.view.ListAdapter
-import io.realm.RealmResults
 
 class FavoritesStorage {
 

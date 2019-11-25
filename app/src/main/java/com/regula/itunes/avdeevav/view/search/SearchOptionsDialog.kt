@@ -4,9 +4,11 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.search.SearchMediaTypes
 
@@ -62,11 +64,11 @@ class SearchOptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         alertDialogBuilder.setTitle(R.string.title)
         alertDialogBuilder.setSingleChoiceItems(
-            Array(SearchMediaTypes.values().size) {
-                SearchMediaTypes.values()[it].mediaType
-            },
-            mediaTypeIndex,
-            this@SearchOptionsDialog
+                Array(SearchMediaTypes.values().size) {
+                    SearchMediaTypes.values()[it].mediaType
+                },
+                mediaTypeIndex,
+                this@SearchOptionsDialog
         )
 
         return alertDialogBuilder.create()

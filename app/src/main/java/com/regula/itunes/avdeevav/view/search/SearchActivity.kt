@@ -15,21 +15,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
 
+import com.regula.itunes.avdeevav.media.PlaySound
 import com.regula.itunes.avdeevav.R
-import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
+import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.repository.search.LastSearchRequest
 import com.regula.itunes.avdeevav.repository.search.SearchMediaTypes
 import com.regula.itunes.avdeevav.repository.search.SearchViewModel
 import com.regula.itunes.avdeevav.view.favorite.FavoritesActivity
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
-import com.regula.itunes.avdeevav.media.PlaySound
 
 class SearchActivity : AppCompatActivity(), ISearchActivity, IListAdapter, ISearchOptionsDialog {
 

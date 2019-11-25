@@ -16,13 +16,13 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.android.synthetic.main.content_favorites.*
 
+import com.regula.itunes.avdeevav.media.PlaySound
 import com.regula.itunes.avdeevav.R
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorage
 import com.regula.itunes.avdeevav.repository.favorite.FavoritesStorageCallback
 import com.regula.itunes.avdeevav.repository.search.data.SearchResult
 import com.regula.itunes.avdeevav.view.IListAdapter
 import com.regula.itunes.avdeevav.view.ListAdapter
-import com.regula.itunes.avdeevav.media.PlaySound
 import com.regula.itunes.avdeevav.view.search.SearchActivity
 
 class FavoritesActivity : AppCompatActivity(), IListAdapter {
